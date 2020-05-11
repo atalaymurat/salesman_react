@@ -1,12 +1,27 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default class Header extends Component {
+import * as actions from '../actions'
+
+class Header extends Component {
+  constructor(props) {
+    super(props)
+    this.logOut = this.logOut.bind(this)
+  }
+
+  logOut() {
+    console.log('logout clicked')
+    this.props.logOut()
+  }
+
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <Link className="navbar-brand" to="/">MakinaTR</Link>
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{ marginBottom: 25 }}>
+          <Link className="navbar-brand" to="/">
+            MakinaTR
+          </Link>
 
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav mr-auto">
@@ -18,15 +33,29 @@ export default class Header extends Component {
             </ul>
 
             <ul className="nav navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/signup">Sign Up</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">LogIn</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/logout">LogOut</Link>
-              </li>
+              {!this.props.isAuth
+                ? [
+                    <li className="nav-item" key="signup">
+                      <Link className="nav-link" to="/signup">
+                        Sign Up
+                      </Link>
+                    </li>,
+                    <li className="nav-item" key="login">
+                      <Link className="nav-link" to="/login">
+                        LogIn
+                      </Link>
+                    </li>,
+                  ]
+                : null}
+              {this.props.isAuth
+                ? [
+                    <li className="nav-item" key="logout">
+                      <Link className="nav-link" to="/logout" onClick={this.logOut}>
+                        LogOut
+                      </Link>
+                    </li>,
+                  ]
+                : null}
             </ul>
           </div>
         </nav>
@@ -34,3 +63,9 @@ export default class Header extends Component {
     )
   }
 }
+function mapStateToProps(state) {
+  return {
+    isAuth: state.auth.isAuthenticated,
+  }
+}
+export default connect(mapStateToProps, actions)(Header)
