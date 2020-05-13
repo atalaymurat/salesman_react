@@ -5,7 +5,7 @@ export default OriginalComponent => {
   class MixedComponent extends Component {
     checkAuth(){
       // Whether the user is authenticates
-      if (!this.props.isAuth && !this.props.jwtToken) {
+      if (!this.props.isAuth) {
         console.log('You are not authorized to get this content Sorry!')
         this.props.history.push('/')
       }
@@ -24,7 +24,6 @@ export default OriginalComponent => {
   function mapStateToProps(state) {
     return {
       isAuth: state.auth.isAuthenticated,
-      jwtToken: state.auth.token,
     }
   }
 

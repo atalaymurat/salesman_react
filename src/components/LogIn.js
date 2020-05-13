@@ -90,10 +90,11 @@ class LogIn extends Component {
           />
           <GoogleLogin
             clientId="535637311357-u2aja1p4n6msidqsiakpl29h9mddo5c5.apps.googleusercontent.com"
-            buttonText="Google"
+            render={renderProps => (
+      <button onClick={renderProps.onClick} className="btn btn-outline-warning" disabled={renderProps.disabled}>Google</button>
+    )}
             onSuccess={this.responseGoogle}
             onFailure={this.responseGoogle}
-            className="btn btn-danger"
           />
         </div>
       </div>

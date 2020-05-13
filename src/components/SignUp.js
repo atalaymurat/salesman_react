@@ -7,6 +7,7 @@ import FacebookLogin from 'react-facebook-login'
 
 import * as actions from '../actions'
 import CustomInput from './CustomInput.js'
+import conf from '../.configuration.js';
 
 class SignUp extends Component {
   constructor(props) {
@@ -81,18 +82,19 @@ class SignUp extends Component {
             <div className="alert alert-primary">Or Sign Up with Social Accounts</div>
           </div>
           <FacebookLogin
-            appId="563044597740472"
+            appId= {conf.facebook.APP_ID}
             textButton="Facebook"
             fields="name,email,picture"
             callback={this.responseFacebook}
             cssClass="btn btn-outline-primary mr-2"
           />
           <GoogleLogin
-            clientId="535637311357-u2aja1p4n6msidqsiakpl29h9mddo5c5.apps.googleusercontent.com"
-            buttonText="Google"
+            clientId= {conf.google.CLIENT_ID}
+            render={renderProps => (
+      <button onClick={renderProps.onClick} className="btn btn-outline-warning" disabled={renderProps.disabled}>Google</button>
+    )}
             onSuccess={this.responseGoogle}
             onFailure={this.responseGoogle}
-            className="btn btn-danger"
           />
         </div>
       </div>
