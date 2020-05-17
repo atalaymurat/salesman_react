@@ -2,109 +2,88 @@ import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login'
 
 import * as actions from '../actions'
 import CustomInput from './CustomInput.js'
-import conf from '../.configuration.js';
+import '../css/card.css'
 
 class SignUp extends Component {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
-    this.responseGoogle = this.responseGoogle.bind(this)
-    this.responseFacebook = this.responseFacebook.bind(this)
   }
   async onSubmit(formData) {
-    console.log('OnSubmit called', formData)
     // need to call some actioncreator
     await this.props.signUp(formData)
-    if(!this.props.errorMessage) {
-      this.props.history.push('/dashboard')
-    }
-  }
+    if (!this.props.errorMessage) {
+      this.props.history.push('/verify')
 
-  async responseGoogle(res) {
-    console.log('responseGoogle fn : ', res)
-    await this.props.oauthGoogle(res.tokenId)
-    if(!this.props.errorMessage) {
-      this.props.history.push('/dashboard')
-    }
-  }
-
-  async responseFacebook(res) {
-    console.log('res Facebook : ', res)
-    await this.props.oauthFacebook(res.accessToken)
-    if(!this.props.errorMessage) {
-      this.props.history.push('/dashboard')
+    }else{
+      this.props.history.push('/signup')
     }
   }
 
   render() {
     const { handleSubmit } = this.props
     return (
-      <div className="row">
-        <div className="col">
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <fieldset>
-              <Field
-                name="email"
-                type="text"
-                id="email"
-                placeholder="example@example.com"
-                label="Email"
-                component={CustomInput}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="password"
-                type="password"
-                label="Password"
-                placeholder="Min 6 characters"
-                id="password"
-                component={CustomInput}
-              />
-            </fieldset>
+      <div>
+            {/* <--Card Login--> */}
+            <div className="card bg-danger text-white card-signin my-5">
+              <div className="card-body">
+                <h5 className="card-title text-center">Hemen Üye Ol</h5>
+                <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
+                  {/* <--ERRORALERT BLOCK--> */}
+                  {this.props.errorMessage ? (
+                    <div className="alert alert-danger">{this.props.errorMessage}</div>
+                  ) : null}
 
-            {this.props.errorMessage ? (
-              <div className="alert alert-danger">{this.props.errorMessage}</div>
-            ) : null}
+                  <fieldset>
+                    <Field
+                      name="email"
+                      type="email"
+                      id="signUpEmail"
+                      placeholder="Email adresiniz"
+                      component={CustomInput}
+                      label="Email adresiniz"
+                      autoFocus
+                    />
+                  </fieldset>
 
-            <button type="submit" className="btn btn-primary">
-              Sign Up
-            </button>
-          </form>
-        </div>
-        <div className="col text-center">
-          <div className="text-center">
-            <div className="alert alert-primary">Or Sign Up with Social Accounts</div>
+                  <fieldset>
+                    <Field
+                      name="password"
+                      type="password"
+                      id="signUpPassword"
+                      placeholder="Şifreni belirle"
+                      label="Şifreni belirle"
+                      component={CustomInput}
+                    />
+                  </fieldset>
+
+                  <div className="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" className="custom-control-input" id="signupRemember" />
+                    <label className="custom-control-label" htmlFor="signupRemember">
+                      Beni hatırla
+                    </label>
+                  </div>
+                  <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
+                    Üye Ol
+                  </button>
+                  <hr className="my-4" />
+                </form>
+              </div>
+            </div>
+
+            {/* <!--ENd Card--> */}
           </div>
-          <FacebookLogin
-            appId= {conf.facebook.APP_ID}
-            textButton="Facebook"
-            fields="name,email,picture"
-            callback={this.responseFacebook}
-            cssClass="btn btn-outline-primary mr-2"
-          />
-          <GoogleLogin
-            clientId= {conf.google.CLIENT_ID}
-            render={renderProps => (
-      <button onClick={renderProps.onClick} className="btn btn-outline-warning" disabled={renderProps.disabled}>Google</button>
-    )}
-            onSuccess={this.responseGoogle}
-            onFailure={this.responseGoogle}
-          />
-        </div>
-      </div>
     )
   }
 }
 
 function mapStateToProps(state) {
+  console.log("[Component SigUp] State :", state )
   return {
-    errorMessage: state.auth.errorMessage,
+    errorMessage: state.err.error
   }
 }
 

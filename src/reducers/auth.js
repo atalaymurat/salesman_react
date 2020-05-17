@@ -1,8 +1,14 @@
-import { AUTH_SIGN_UP, AUTH_LOG_IN, AUTH_LOG_OUT, AUTH_ERROR } from '../actions/types.js'
+import {
+  AUTH_SIGN_UP,
+  AUTH_VERIFY,
+  AUTH_LOG_IN,
+  AUTH_LOG_OUT,
+} from '../actions/types.js'
 
 const DEFAULT_STATE = {
   isAuthenticated: false,
-  errorMessage: '',
+  email_verified: false,
+  login: false,
 }
 
 export default (state = DEFAULT_STATE, action) => {
@@ -12,24 +18,37 @@ export default (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        errorMessage: '',
+        login: true,
       }
     case AUTH_LOG_IN:
       console.log('[AuthReducer] got an AUTH_LOG_IN action')
       return {
         ...state,
         isAuthenticated: true,
-        errorMessage: '',
+        login: action.payload,
       }
+
+    case AUTH_VERIFY:
+      console.log('[AuthReducer] got an AUTH_VERIFY action')
+      return {
+        ...state,
+        email_verified: action.payload,
+        isAuthenticated: true
+      }
+
     case AUTH_LOG_OUT:
       return {
         ...state,
         isAuthenticated: false,
-        errorMessage: '',
+        login: false,
       }
-    case AUTH_ERROR:
-      console.log('[AuthReducer] got an AUTH_ERROR action')
-      return { ...state, errorMessage: action.payload }
+
+    //case AUTH_ERROR:
+      //console.log('[AuthReducer] got an AUTH_ERROR action')
+      //return {
+        //...state,
+        //error: action.error,
+      //}
 
     default:
       return state

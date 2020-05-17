@@ -1,0 +1,19 @@
+$theme-colors: (
+  'primary': #2561bb,
+  'danger': #c93f2c,
+  'dark': #35382e,
+);
+
+$body-bg: #e2e2d8;
+$body-color: #111;
+
+//Card vars
+$card-bg: #EBEBE1 !default;
+$card-cap-bg: #E2E2D8 !default;
+$card-spacer-x: 1.25rem !default;
+$card-spacer-y: 0.75rem !default;
+$card-border-width: 1px !default;
+$card-border-color: rgba(0, 0, 0, 0.125) !default;
+$card-link-hover-color: #fff !default;
+
+@import '~bootstrap/scss/bootstrap.scss';

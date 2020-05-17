@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {
   AUTH_SIGN_UP,
-  AUTH_ERROR,
+  AUTH_VERIFY,
   AUTH_LOG_OUT,
   AUTH_LOG_IN,
   AUTH_LINK_GOOGLE,
@@ -9,7 +9,22 @@ import {
   AUTH_LINK_FACEBOOK,
   AUTH_UNLINK_FACEBOOK,
   DASHBOARD_GET_DATA,
+  SET_ERROR,
+  HIDE_ERROR,
 } from './types.js'
+
+export const setError = error => {
+  return {
+    type: SET_ERROR,
+    error: error,
+  }
+}
+
+export const hideError = () => {
+  return {
+    type: HIDE_ERROR,
+  }
+}
 
 export const oauthGoogle = data => {
   return async dispatch => {
@@ -85,15 +100,38 @@ export const linkFacebook = data => {
 export const signUp = data => {
   return async dispatch => {
     try {
-      await axios.post('/users/signup', data)
-
+      const res = await axios.post('/users/signup', data)
+      console.log('[SignUp Act] Response', res.data)
       dispatch({
         type: AUTH_SIGN_UP,
+        payload: res.data.error,
+      })
+      dispatch({
+        type: HIDE_ERROR,
       })
     } catch (error) {
       dispatch({
-        type: AUTH_ERROR,
-        payload: 'Email already registered, try Login',
+        type: SET_ERROR,
+        error: error.response.data.error,
+      })
+    }
+  }
+}
+
+export const verify = data => {
+  return async dispatch => {
+    try {
+      const res = await axios.post('/users/verify', data)
+      console.log('[ACT-verify] data :', res.data)
+      dispatch({
+        type: AUTH_VERIFY,
+        payload: res.data.email_verified,
+      })
+    } catch (error) {
+      console.log('ACT-verify Error Res data :', error.response)
+      dispatch({
+        type: SET_ERROR,
+        error: error.response.data.error,
       })
     }
   }
@@ -102,15 +140,25 @@ export const signUp = data => {
 export const logIn = data => {
   return async dispatch => {
     try {
-      await axios.post('/users/login', data)
-
+      const res = await axios.post('/users/login', data)
+      console.log('[ACt-login] data is : ', res.data.message)
+      var login = () => {
+        if (res.data.message === 'Login Success') {
+          return true
+        }
+      }
       dispatch({
         type: AUTH_LOG_IN,
+        payload: login,
+      })
+      dispatch({
+        type: HIDE_ERROR,
       })
     } catch (error) {
+      console.log('error :', error.response.data)
       dispatch({
-        type: AUTH_ERROR,
-        payload: 'Email or Password not correct',
+        type: SET_ERROR,
+        error: error.response.data.error,
       })
     }
   }
@@ -141,8 +189,12 @@ export const getDashboard = () => {
         type: DASHBOARD_GET_DATA,
         payload: res.data,
       })
-    } catch (error) {
-      console.error('error', error)
+    } catch (err) {
+      dispatch({
+        type: SET_ERROR,
+        payload: err.response.data.message,
+      })
+      console.error('error', err)
     }
   }
 }
@@ -153,6 +205,10 @@ export const logOut = () => {
 
     dispatch({
       type: AUTH_LOG_OUT,
+      error: null,
+    })
+    dispatch({
+      type: HIDE_ERROR,
     })
   }
 }

@@ -5,12 +5,14 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import reduxThunk from 'redux-thunk'
 import axios from 'axios'
+import './css/main.scss'
 
 import App from './components/App.js'
 import Home from './components/Home.js'
-import SignUp from './components/SignUp.js'
-import LogIn from './components/LogIn.js'
+import Register from './components/Register.js'
 import Dashboard from './components/Dashboard.js'
+import SignUp from './components/SignUp.js'
+import Verify from './components/Verify.js'
 import reducers from './reducers'
 import authGuard from './components/HOCs/authGuard.js'
 
@@ -21,8 +23,9 @@ ReactDOM.render(
     <BrowserRouter>
       <App>
         <Route path="/" exact component={Home} />
+        <Route path="/register" exact component={Register} />
         <Route path="/signup" exact component={SignUp} />
-        <Route path="/login" exact component={LogIn} />
+        <Route path="/verify" exact component={Verify} />
         <Route path="/dashboard" exact component={authGuard(Dashboard)} />
       </App>
     </BrowserRouter>
