@@ -18,6 +18,7 @@ class LogIn extends Component {
     this.responseFacebook = this.responseFacebook.bind(this)
   }
   async onSubmit(formData) {
+    console.log("Login onSubmit passed:", formData)
     // need to call some actioncreator
     await this.props.logIn(formData)
     if (this.props.login) {
@@ -41,6 +42,9 @@ class LogIn extends Component {
     if (!this.props.errorMessage) {
       this.props.history.push('/dashboard')
     }
+  }
+  componentWillMount() {
+    this.props.hideError()
   }
 
   render() {

@@ -105,6 +105,7 @@ export const signUp = data => {
       dispatch({
         type: AUTH_SIGN_UP,
         payload: res.data.error,
+        message: res.data.message
       })
       dispatch({
         type: HIDE_ERROR,
@@ -141,9 +142,9 @@ export const logIn = data => {
   return async dispatch => {
     try {
       const res = await axios.post('/users/login', data)
-      console.log('[ACt-login] data is : ', res.data.message)
+      console.log('[ACt-login] data is : ', res.data)
       var login = () => {
-        if (res.data.message === 'Login Success') {
+        if (res.data.status === 'ok') {
           return true
         }
       }
@@ -155,7 +156,7 @@ export const logIn = data => {
         type: HIDE_ERROR,
       })
     } catch (error) {
-      console.log('error :', error.response.data)
+      console.log('error from server :', error.response.data)
       dispatch({
         type: SET_ERROR,
         error: error.response.data.error,
@@ -192,7 +193,7 @@ export const getDashboard = () => {
     } catch (err) {
       dispatch({
         type: SET_ERROR,
-        payload: err.response.data.message,
+        payload: err.response.data.error,
       })
       console.error('error', err)
     }

@@ -15,7 +15,7 @@ class Verify extends Component {
   async onSubmit(formData) {
     // need to call some actioncreator
     await this.props.verify(formData)
-    console.log("Prop Verify:", this.props.email_verified)
+    console.log('Prop Verify:', this.props.email_verified)
     if (this.props.email_verified) {
       this.props.history.push('/dashboard')
     } else {
@@ -31,13 +31,17 @@ class Verify extends Component {
         {/* <--Card Login--> */}
         <div className="card card-signin my-5">
           <div className="card-body">
-            <h5 className="card-title text-center">Email Doğrulama</h5>
-            <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
-              {/* <--ERROR ALERT BLOCK--> */}
-              {this.props.errorMessage ? (
-                <div className="alert alert-danger">{this.props.errorMessage}</div>
-              ) : null}
+            <h5 className="display-4 text-center text-dark">Email Doğrulama</h5>
+            {/* <--ERROR ALERT BLOCK--> */}
+            {this.props.errorMessage ? (
+              <div className="alert alert-danger">{this.props.errorMessage}</div>
+            ) : null}
 
+            {/* <--MESSAGE ALERT BLOCK--> */}
+            {this.props.message ? (
+              <div className="alert alert-success">{this.props.message}</div>
+            ) : null}
+            <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
               <fieldset>
                 <Field
                   name="code"
@@ -47,14 +51,28 @@ class Verify extends Component {
                   component={CustomInput}
                   label="Doğrulama Kodunuz"
                   required
-                  autofocus
+                  autoFocus
                 />
               </fieldset>
 
-              <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
-                Doğrula
+              <button className="btn btn-lg btn-success btn-block text-uppercase" type="submit">
+                Gönder
               </button>
             </form>
+          </div>
+          <div className="card-footer bg-dark text-white shadow">
+            <h5 className="card-subtitle mb-2">Eğer doğrulama kodu gelmediyse;</h5>
+            <p className="card-text">
+              - Emailinizin gereksiz veya spam kutusunu kontrol ediniz.
+              <br />
+              - Doğru email adresiyle kayıt yaptığınızı kontrol ediniz.
+              <br />
+              - Doğrulama işlemini daha sonrada tamamlayabilirsiniz.
+              <br />
+              - Destek hattımızdan doğrulama yapmasını isteyebilirsiniz.
+              <br />
+              - Tekrar doğrulama kodu isteyiniz
+            </p>
           </div>
         </div>
 
@@ -68,6 +86,7 @@ function mapStateToProps(state) {
   return {
     errorMessage: state.err.error,
     email_verified: state.auth.email_verified,
+    message: state.auth.message,
   }
 }
 

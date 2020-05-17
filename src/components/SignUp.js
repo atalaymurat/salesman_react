@@ -22,13 +22,16 @@ class SignUp extends Component {
       this.props.history.push('/signup')
     }
   }
+  componentWillMount(){
+    this.props.hideError()
+  }
 
   render() {
     const { handleSubmit } = this.props
     return (
       <div>
             {/* <--Card Login--> */}
-            <div className="card bg-danger text-white card-signin my-5">
+            <div className="card bg-dark text-white card-signin my-5">
               <div className="card-body">
                 <h5 className="card-title text-center">Hemen Üye Ol</h5>
                 <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
@@ -66,7 +69,7 @@ class SignUp extends Component {
                       Beni hatırla
                     </label>
                   </div>
-                  <button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
+                  <button className="btn btn-lg btn-success btn-block text-uppercase" type="submit">
                     Üye Ol
                   </button>
                   <hr className="my-4" />
