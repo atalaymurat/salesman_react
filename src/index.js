@@ -17,6 +17,9 @@ import reducers from './reducers'
 import authGuard from './components/HOCs/authGuard.js'
 
 axios.defaults.withCredentials = true
+if (process.env.NODE_ENV !== 'development') {
+  axios.defaults.baseURL = 'http://api.makinatr.com'
+}
 
 ReactDOM.render(
   <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>

@@ -4,8 +4,11 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 import * as actions from '../actions'
-import CustomInput from './CustomInput.js'
+import StandartInput from './StandartInput.js'
 import '../css/card.css'
+import { minLength6, required } from './StandartInput'
+
+
 
 class Verify extends Component {
   constructor(props) {
@@ -16,7 +19,7 @@ class Verify extends Component {
     // need to call some actioncreator
     await this.props.verify(formData)
     console.log('Prop Verify:', this.props.email_verified)
-    if (this.props.email_verified) {
+    if (this.props.email_verified && this.props.login) {
       this.props.history.push('/dashboard')
     } else {
       this.props.history.push('/verify')
@@ -47,10 +50,9 @@ class Verify extends Component {
                   name="code"
                   type="text"
                   id="code"
-                  placeholder="Doğrulama Kodu"
-                  component={CustomInput}
-                  label="Doğrulama Kodunuz"
-                  required
+                  component={StandartInput}
+                  label="Doğrulama Kodu"
+                  validate={[required, minLength6]}
                   autoFocus
                 />
               </fieldset>
@@ -70,8 +72,7 @@ class Verify extends Component {
               - Doğrulama işlemini daha sonrada tamamlayabilirsiniz.
               <br />
               - Destek hattımızdan doğrulama yapmasını isteyebilirsiniz.
-              <br />
-              - Tekrar doğrulama kodu isteyiniz
+              <br />- Tekrar doğrulama kodu isteyiniz
             </p>
           </div>
         </div>
@@ -83,10 +84,12 @@ class Verify extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('Verify State data : ', state)
   return {
     errorMessage: state.err.error,
     email_verified: state.auth.email_verified,
     message: state.auth.message,
+    login: state.auth.login,
   }
 }
 

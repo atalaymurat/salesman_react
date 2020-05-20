@@ -5,8 +5,8 @@ import dashboardReducer from './dashboard'
 import errorReducer from './error'
 
 export default combineReducers({
-  form: formReducer,
   auth: authReducer,
   dash: dashboardReducer,
   err: errorReducer,
+  form: formReducer,
 })

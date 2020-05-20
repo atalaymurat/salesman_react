@@ -6,7 +6,7 @@ export default OriginalComponent => {
     checkAuth(){
       // Whether the user is authenticates
       if (!this.props.isAuth) {
-        console.log('You are not authorized to get this content Sorry!')
+        console.log('Bu içeriği görüntülemek için yetkilendirilmemişsiniz.')
         this.props.history.push('/')
       }
     }

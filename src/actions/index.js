@@ -174,9 +174,9 @@ export const checkAuth = () => {
         type: AUTH_SIGN_UP,
       })
 
-      console.log('User is authenticated')
+      console.log('User is authenticated by action checkAuth')
     } catch (error) {
-      console.log('err', error)
+      console.log('[ACT-checkAuth] catch error from server', error)
     }
   }
 }

@@ -36,7 +36,7 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar sticky-top navbar-expand-sm navbar-dark bg-dark" style={{ marginBottom: 25 }}>
+        <nav className="navbar sticky-top navbar-expand navbar-dark bg-dark" style={{ marginBottom: 25 }}>
           <div className="container">
             <Link className="navbar-brand" to="/">
               MakinaTR.com
@@ -61,8 +61,8 @@ class Header extends Component {
 
               <ul className="nav navbar-nav ml-auto">
                 {!this.props.isAuth && (
-                  <li className="nav-item" key="register">
-                    <Link className="nav-link" to="/Register">
+                  <li className="nav-item" key="reg">
+                    <Link className="nav-link" to="/register">
                       <FontAwesomeIcon icon={faSignInAlt} size="lg" inverse />
                     </Link>
                   </li>

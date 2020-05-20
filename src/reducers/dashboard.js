@@ -27,7 +27,6 @@ export default (state = DEFAULT_STATE, action) => {
       return { ...state, methods: action.payload.methods }
 
     case DASHBOARD_GET_DATA:
-      console.log('[AuthReducer] got an DASHBOARD_GET_DATA action')
       return { 
         ...state, 
         secret: action.payload.secret, 

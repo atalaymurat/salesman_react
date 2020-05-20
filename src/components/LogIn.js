@@ -6,9 +6,11 @@ import { GoogleLogin } from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
 
 import * as actions from '../actions'
-import CustomInput from './CustomInput.js'
+import StandartInput from './StandartInput.js'
 import '../css/card.css'
 import conf from '../.configuration.js'
+import {required, minLength6, email} from "./StandartInput"
+
 
 class LogIn extends Component {
   constructor(props) {
@@ -18,8 +20,6 @@ class LogIn extends Component {
     this.responseFacebook = this.responseFacebook.bind(this)
   }
   async onSubmit(formData) {
-    console.log("Login onSubmit passed:", formData)
-    // need to call some actioncreator
     await this.props.logIn(formData)
     if (this.props.login) {
       this.props.history.push('/dashboard')
@@ -52,24 +52,27 @@ class LogIn extends Component {
     return (
       <div>
         {/* <--Card Login--> */}
-        <div className="card card-signin my-5">
-          <div className="card-body text-dark">
+        <div className="card card-signin my-5 text-dark">
+          <div className="card-header">
             <h1 className="display-4 text-center text-dark">Giriş Yap</h1>
+
+          </div>
+          <div className="card-body">
             <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
               {/* <--ERROR ALERT BLOCK--> */}
-              {this.props.errorMessage ? (
+              {this.props.errorMessage && this.props.errorMessage.length >= 2  ? (
                 <div className="alert alert-danger">{this.props.errorMessage}</div>
               ) : null}
 
               <fieldset>
                 <Field
                   name="email"
-                  type="email"
+                  type="text"
                   id="loginEmail"
-                  placeholder="Email address"
-                  component={CustomInput}
-                  label="Email adresiniz"
-                  required
+                  component={StandartInput}
+                  label="E-posta"
+                  validate={[required, email]}
+                  autoComplete="email"
                   autoFocus
                 />
               </fieldset>
@@ -79,10 +82,10 @@ class LogIn extends Component {
                   name="password"
                   type="password"
                   id="loginPassword"
-                  placeholder="Şifreniz"
-                  label="Şifreniz"
-                  required
-                  component={CustomInput}
+                  label="Şifre"
+                  validate={[required, minLength6]}
+                  component={StandartInput}
+                  autoComplete="current-password"
                 />
               </fieldset>
 
@@ -92,9 +95,12 @@ class LogIn extends Component {
                   Beni hatırla
                 </label>
               </div>
-              <button className="btn btn-lg btn-success btn-block text-uppercase" type="submit">
+              <button className="btn btn-lg btn-success btn-block text-uppercase mb-2" type="submit">
                 Giriş Yap
               </button>
+                <p className="card-link">
+              <a href="#" className="text-muted">Şifremi Unuttum</a>
+                </p>
               <hr className="my-4" />
 
               <GoogleLogin

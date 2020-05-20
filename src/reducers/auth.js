@@ -14,7 +14,7 @@ export default (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        login: true,
+        login: false,
         message: action.message,
       }
     case AUTH_LOG_IN:
@@ -31,6 +31,7 @@ export default (state = DEFAULT_STATE, action) => {
         ...state,
         email_verified: action.payload,
         isAuthenticated: true,
+        login: true
       }
 
     case AUTH_LOG_OUT:
@@ -38,6 +39,7 @@ export default (state = DEFAULT_STATE, action) => {
         ...state,
         isAuthenticated: false,
         login: false,
+        message: null,
       }
 
     //case AUTH_ERROR:

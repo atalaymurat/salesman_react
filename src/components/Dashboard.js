@@ -64,7 +64,7 @@ class Dashboard extends Component {
         <h3>Kontrol Paneli</h3>
         {this.props.secret && (
           <div className="alert alert-info alert-dismissable fade show" role="alert">
-            <strong>Admin Mesajı! </strong>
+            <strong>Mesaj var! </strong>
             {this.props.secret}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -75,6 +75,8 @@ class Dashboard extends Component {
 
         <div className="row">
           <div className="col-sm">
+            {this.props.user.email && (
+
             <div class="card mb-2 bg-secondary text-white" style={meStyle}>
               <div className="card-header bg-secondary text-white">
                 Yerel Hesap
@@ -100,6 +102,7 @@ class Dashboard extends Component {
                 )}
               </div>
             </div>
+            )}
 
             {this.props.user.googleEmail && (
               <div className="card mb-2">
@@ -156,8 +159,8 @@ class Dashboard extends Component {
         </div>
         <div className="row">
           <div className="col">
-            <h4>Sosyal Medya Hesapları</h4>
-            <p>Hesap Bağlama</p>
+            <h4>Sosyal Medya</h4>
+            <p>Hesap Ekleme</p>
           </div>
         </div>
         <div className="row">
