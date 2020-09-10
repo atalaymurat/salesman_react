@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { Link } from 'react-router-dom'
 
 import * as actions from '../actions'
 import StandartInput from './StandartInput.js'
-import '../css/card.css'
 import { minLength6, required } from './StandartInput'
-
-
 
 class Verify extends Component {
   constructor(props) {
@@ -17,33 +15,39 @@ class Verify extends Component {
   }
   async onSubmit(formData) {
     // need to call some actioncreator
+    console.log("FORM-DATA:", formData)
+    this.props.hideMessage()
     await this.props.verify(formData)
     console.log('Prop Verify:', this.props.email_verified)
-    if (this.props.email_verified && this.props.login) {
-      this.props.history.push('/dashboard')
+    if (this.props.email_verified && this.props.isAuthenticated) {
+      this.props.history.push('/panel')
     } else {
       this.props.history.push('/verify')
       console.log(' Verify can not pass')
+      this.props.reset()
     }
   }
+
+  handleReverify = () => {
+    this.props.reVerify()
+  }
+
+  componentWillUnmount() {
+    this.props.hideError()
+  }
+  componentDidMount(){
+    this.props.setUser()
+  }
+
 
   render() {
     const { handleSubmit } = this.props
     return (
       <div>
         {/* <--Card Login--> */}
-        <div className="card card-signin my-5">
+        <div className="card card-signin my-5 mx-auto">
           <div className="card-body">
-            <h5 className="display-4 text-center text-dark">Email Doğrulama</h5>
-            {/* <--ERROR ALERT BLOCK--> */}
-            {this.props.errorMessage ? (
-              <div className="alert alert-danger">{this.props.errorMessage}</div>
-            ) : null}
-
-            {/* <--MESSAGE ALERT BLOCK--> */}
-            {this.props.message ? (
-              <div className="alert alert-success">{this.props.message}</div>
-            ) : null}
+            <h4 className="text-center text-dark card-title">E-Posta Doğrulama</h4>
             <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
               <fieldset>
                 <Field
@@ -57,22 +61,31 @@ class Verify extends Component {
                 />
               </fieldset>
 
-              <button className="btn btn-lg btn-success btn-block text-uppercase" type="submit">
-                Gönder
+              <button className="btn btn-lg btn-success btn-block text-uppercase mb-2" type="submit">
+                Doğrula
               </button>
             </form>
+              <Link to="/panel" className="btn btn-lg btn-secondary btn-block text-uppercase">
+                Daha sonra Doğrula
+              </Link>
+              <button
+                className="btn btn-lg btn-dark btn-block text-uppercase"
+                onClick={this.handleReverify}
+              >
+                Tekrar Gönder
+              </button>
           </div>
           <div className="card-footer bg-dark text-white shadow">
             <h5 className="card-subtitle mb-2">Eğer doğrulama kodu gelmediyse;</h5>
             <p className="card-text">
-              - Emailinizin gereksiz veya spam kutusunu kontrol ediniz.
+              - E-Posta hesabınızın gereksiz veya spam kutusunu kontrol ediniz.
               <br />
-              - Doğru email adresiyle kayıt yaptığınızı kontrol ediniz.
+              - Doğru e-posta adresiyle kayıt yaptığınızı kontrol ediniz.
               <br />
               - Doğrulama işlemini daha sonrada tamamlayabilirsiniz.
               <br />
               - Destek hattımızdan doğrulama yapmasını isteyebilirsiniz.
-              <br />- Tekrar doğrulama kodu isteyiniz
+              <br />- Tekrar doğrulama e-postası isteyebilirsiz.
             </p>
           </div>
         </div>
@@ -84,12 +97,12 @@ class Verify extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('Verify State data : ', state)
+  console.log('VERIFY STATE : ', state)
   return {
-    errorMessage: state.err.error,
     email_verified: state.auth.email_verified,
-    message: state.auth.message,
-    login: state.auth.login,
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.dash.user,
+    auth: state.auth,
   }
 }
 

@@ -1,53 +1,59 @@
-import { AUTH_SIGN_UP, AUTH_VERIFY, AUTH_LOG_IN, AUTH_LOG_OUT } from '../actions/types.js'
+import T from '../actions/types.js'
 
 const DEFAULT_STATE = {
   isAuthenticated: false,
   email_verified: false,
-  login: false,
-  message: '',
+  user: {
+    _id: '',
+    created_at: '',
+    updated_at: '',
+    local:{
+      email:'',
+      email_verified: false,
+    },
+    google:{
+      email:'',
+      picture:'',
+    },
+    facebook:{
+      email:'',
+      picture:'',
+    },
+    methods:[],
+    adverts: [],
+  },
 }
 
 export default (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case AUTH_SIGN_UP:
-      console.log('[AuthReducer] got an AUTH_SIGN_UP action')
+    case T.AUTH_SIGN_UP:
       return {
         ...state,
         isAuthenticated: true,
-        login: false,
-        message: action.message,
       }
-    case AUTH_LOG_IN:
-      console.log('[AuthReducer] got an AUTH_LOG_IN action')
+    case T.AUTH_LOG_IN:
       return {
         ...state,
-        isAuthenticated: true,
-        login: action.payload,
+        isAuthenticated: action.payload,
       }
 
-    case AUTH_VERIFY:
-      console.log('[AuthReducer] got an AUTH_VERIFY action')
+    case T.AUTH_VERIFY:
       return {
         ...state,
         email_verified: action.payload,
         isAuthenticated: true,
-        login: true
       }
-
-    case AUTH_LOG_OUT:
+    case T.AUTH_SET_USER:
       return {
         ...state,
-        isAuthenticated: false,
-        login: false,
-        message: null,
+        user: action.user,
       }
 
-    //case AUTH_ERROR:
-    //console.log('[AuthReducer] got an AUTH_ERROR action')
-    //return {
-    //...state,
-    //error: action.error,
-    //}
+    case T.AUTH_LOG_OUT:
+      return {
+        ...DEFAULT_STATE,
+      }
+
 
     default:
       return state

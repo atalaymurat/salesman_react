@@ -4,13 +4,12 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { GoogleLogin } from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
+import { Link } from 'react-router-dom'
 
 import * as actions from '../actions'
 import StandartInput from './StandartInput.js'
-import '../css/card.css'
 import conf from '../.configuration.js'
-import {required, minLength6, email} from "./StandartInput"
-
+import { required, minLength6, email } from './StandartInput'
 
 class LogIn extends Component {
   constructor(props) {
@@ -20,11 +19,13 @@ class LogIn extends Component {
     this.responseFacebook = this.responseFacebook.bind(this)
   }
   async onSubmit(formData) {
+    this.props.hideError()
     await this.props.logIn(formData)
-    if (this.props.login) {
-      this.props.history.push('/dashboard')
-    }else{
+    if (this.props.isAuthenticated) {
+      this.props.history.push('/panel')
+    } else {
       this.props.history.push('/register')
+      this.props.reset()
     }
   }
 
@@ -32,7 +33,7 @@ class LogIn extends Component {
     console.log('Ask Google for login data : ', res)
     await this.props.oauthGoogle(res.tokenId)
     if (!this.props.errorMessage) {
-      this.props.history.push('/dashboard')
+      this.props.history.push('/panel')
     }
   }
 
@@ -40,10 +41,10 @@ class LogIn extends Component {
     console.log('Ask Facebook for login data : ', res)
     await this.props.oauthFacebook(res.accessToken)
     if (!this.props.errorMessage) {
-      this.props.history.push('/dashboard')
+      this.props.history.push('/panel')
     }
   }
-  componentWillMount() {
+  componentWillUnmount() {
     this.props.hideError()
   }
 
@@ -52,15 +53,14 @@ class LogIn extends Component {
     return (
       <div>
         {/* <--Card Login--> */}
-        <div className="card card-signin my-5 text-dark">
-          <div className="card-header">
+        <div className="card card-signin bg-gray text-dark mt-2">
+          <div className="card-header bg-gray">
             <h1 className="display-4 text-center text-dark">Giriş Yap</h1>
-
           </div>
           <div className="card-body">
             <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
               {/* <--ERROR ALERT BLOCK--> */}
-              {this.props.errorMessage && this.props.errorMessage.length >= 2  ? (
+              {this.props.errorMessage && this.props.errorMessage.length >= 2 ? (
                 <div className="alert alert-danger">{this.props.errorMessage}</div>
               ) : null}
 
@@ -95,38 +95,44 @@ class LogIn extends Component {
                   Beni hatırla
                 </label>
               </div>
-              <button className="btn btn-lg btn-success btn-block text-uppercase mb-2" type="submit">
-                Giriş Yap
+              <button
+                className="btn btn-lg btn-success btn-block mb-2"
+                type="submit"
+              >
+                GİRİŞ YAP
               </button>
-                <p className="card-link">
-              <a href="#" className="text-muted">Şifremi Unuttum</a>
-                </p>
-              <hr className="my-4" />
-
-              <GoogleLogin
-                clientId={conf.google.CLIENT_ID}
-                render={renderProps => (
-                  <button
-                    onClick={renderProps.onClick}
-                    className="btn btn-lg btn-google btn-block text-uppercase"
-                    disabled={renderProps.disabled}
-                  >
-                    Google Hesabınla Gir
-                  </button>
-                )}
-                onSuccess={this.responseGoogle}
-                onFailure={this.responseGoogle}
-              />
-              {/* <--Facebook Login--> */}
-
-              <FacebookLogin
-                appId={conf.facebook.APP_ID}
-                textButton="Facebook Hesabınla Gir"
-                fields="name,email,picture"
-                callback={this.responseFacebook}
-                cssClass="btn btn-lg btn-facebook btn-block my-2 text-uppercase"
-              />
+              <p className="card-link">
+                <Link to="/forget" className="text-muted">
+                  Şifremi Unuttum
+                </Link>
+              </p>
             </form>
+          </div>
+
+          <div className="card-footer bg-gray">
+            <GoogleLogin
+              clientId={conf.google.CLIENT_ID}
+              render={renderProps => (
+                <button
+                  onClick={renderProps.onClick}
+                  className="btn btn-lg btn-google btn-block text-uppercase"
+                  disabled={renderProps.disabled}
+                >
+                  Google Hesabınla
+                </button>
+              )}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+            />
+            {/* <--Facebook Login--> */}
+
+            <FacebookLogin
+              appId={conf.facebook.APP_ID}
+              textButton="Facebook Hesabınla Gir"
+              fields="name,email,picture"
+              callback={this.responseFacebook}
+              cssClass="btn btn-lg btn-facebook btn-block my-2 text-uppercase"
+            />
           </div>
         </div>
 
@@ -137,10 +143,10 @@ class LogIn extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("Login Component state: " , state)
+  console.log('Login Component state: ', state)
   return {
     errorMessage: state.err.error,
-    login : state.auth.login
+    isAuthenticated: state.auth.isAuthenticated,
   }
 }
 

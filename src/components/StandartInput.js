@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
+const eye = <FontAwesomeIcon icon={faEye} />
 
 //Field level validation
 export const required = (value) =>
@@ -8,26 +11,31 @@ export const email = (value) =>
     ? 'E-posta geçerli değil.'
     : undefined
 
-export const minValue = (min) => (value) =>
-  value && value < min ? `En az ${min} karakter içermeli..` : undefined
-export const minValue18 = minValue(18)
 
 export const minLength = (min) => (value) =>
   value && value.length < min ? `En az ${min} karakter olmalı.` : undefined
 export const minLength6 = minLength(6)
+export const minLength4 = minLength(4)
+
+
+
 
 export default class StandartInput extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      clicked: false,
+      passShow: false,
     }
-    this.handleClick = this.handleClick.bind(this)
-  }
-  handleClick() {
-    this.setState({ clicked: true })
+    this.togglePassShow = this.togglePassShow.bind(this)
   }
 
+  togglePassShow() {
+    this.setState({ passShow: this.state.passShow ? false : true })
+    console.log('pass show', this.state.passShow)
+  }
+  componentUnmount() {
+    this.setState({ passShow: false })
+  }
   render() {
     const {
       input: { value, onChange },
@@ -41,22 +49,27 @@ export default class StandartInput extends Component {
             id={this.props.id}
             placeholder={this.props.label}
             className={
-              this.state.clicked
+              touched
                 ? (error && 'form-control is-invalid') ||
                   (!error && 'form-control is-valid')
                 : 'form-control'
             }
-            type={this.props.type}
+            type={this.state.passShow ? 'text' : this.props.type}
             value={value}
             onChange={onChange}
-            onClick={() => {
-              this.handleClick()
-            }}
           />
-          {this.state.clicked &&
-            ((error && <div class="invalid-feedback">{error}</div>) ||
-              (warning && <span>{warning}</span>))}
-          <label htmlFor={this.props.id}>{this.props.label}</label>
+          {touched &&
+            ((error && <div className="invalid-feedback">{error}</div>) ||
+              (warning && <div className="valid-feedback">{warning}</div>))}
+          <label htmlFor={this.props.id}>
+            {this.props.label}
+
+            {value.length > 0 && this.props.type === 'password' && (
+              <i className="password float-right" onClick={this.togglePassShow}>
+                {eye}
+              </i>
+            )}
+          </label>
         </div>
       </div>
     )

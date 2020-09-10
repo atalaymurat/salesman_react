@@ -1,19 +1,29 @@
+@import './settings';
+@import 'node_modules/bootstrap/scss/bootstrap';
+
 $theme-colors: (
   'primary': #2561bb,
   'danger': #c93f2c,
-  'dark': #35382e,
+  'dark': #251f11,
+  'green': #007a33,
+  'purple': #d233fed6,
+  'gray': #f8f9fa,
+  'gold': #ae8f30,
+  'gold2': #d4af37,
+  'silver': #868686,
 );
-
-$body-bg: #e2e2d8;
+// $body-bg: #e2e2d8;
+$body-bg: transparent;
 $body-color: #111;
 
 //Card vars
-$card-bg: #EBEBE1 !default;
-$card-cap-bg: #E2E2D8 !default;
-$card-spacer-x: 1.25rem !default;
-$card-spacer-y: 0.75rem !default;
-$card-border-width: 1px !default;
-$card-border-color: rgba(0, 0, 0, 0.125) !default;
-$card-link-hover-color: #fff !default;
+$custom-file-text: (
+  en: 'Browse',
+  tr: 'Dosya seç',
+);
+//** Padding between columns. Gets divided in half for the left and right.
 
+//Bootstrap
 @import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';

@@ -3,14 +3,13 @@ import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import Recaptcha from 'react-recaptcha'
-import { Link } from 'react-router-dom'
 
 import * as actions from '../actions'
 import StandartInput from './StandartInput.js'
-import { required, minLength6, email } from './StandartInput'
+import { required, minLength6 } from './StandartInput'
 import axios from 'axios'
 
-class SignUp extends Component {
+class PassReset extends Component {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
@@ -34,15 +33,17 @@ class SignUp extends Component {
 
   async onSubmit(formData) {
     this.props.hideError()
-    await this.props.signUp(formData)
-    if (!this.props.errorMessage && this.state.isCaptcha_Ok) {
-      this.props.history.push('/verify')
-    } else {
-      this.props.history.push('/signup')
-    }
+    this.props.hideMessage()
+    let token = window.location.pathname.split('/')[2]
+    let data = { ...formData, token }
+    console.log('Data is sending', data)
+    await this.props.passReset(data)
+    this.props.reset()
   }
+
   componentWillUnmount() {
     this.props.hideError()
+    this.props.hideMessage()
   }
 
   render() {
@@ -52,47 +53,29 @@ class SignUp extends Component {
         {/* <--Card Login--> */}
         <div className="card bg-white text-dark card-signin my-5 w-75 mx-auto">
           <div className="card-header bg-white text-dark">
-            <h1 className="display-4 text-center">Üye Ol</h1>
+            <h1 className="display-4 text-center">Şifre Sıfırlama</h1>
           </div>
           <div className="card-body">
             <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
-
-              <fieldset>
-                <Field
-                  name="email"
-                  type="text"
-                  id="signUpEmail"
-                  component={StandartInput}
-                  label="E-posta"
-                  validate={[required, email]}
-                  autoComplete="username"
-                />
-              </fieldset>
+              {/* <--ERRORALERT BLOCK--> */}
+              {this.props.errorMessage && this.props.errorMessage.length >= 2 ? (
+                <div className="alert alert-danger">{this.props.errorMessage}</div>
+              ) : null}
+              {/* <--MESSAGE ALERT BLOCK--> */}
+              {this.props.mesaj && <div className="alert alert-success">{this.props.mesaj}</div>}
 
               <fieldset>
                 <Field
                   name="password"
                   type="password"
                   id="signUpPassword"
-                  label="Şifre"
+                  label="Yeni Şifre"
                   component={StandartInput}
                   validate={[required, minLength6]}
                   autoComplete="new-password"
                 />
               </fieldset>
 
-              <div className="custom-control custom-checkbox mb-3">
-                <input type="checkbox" className="custom-control-input" id="signupRemember" />
-                <label className="custom-control-label" htmlFor="signupRemember">
-                  Beni hatırla
-                </label>
-              </div>
-              <div className="custom-control custom-checkbox mb-3">
-                <input type="checkbox" className="custom-control-input" id="declaretion" />
-                <label className="custom-control-label" htmlFor="declaretion">
-                  Üyelik Koşullarını ve Kişisel Verilerin Korunmasını kabul ediyorum.
-                </label>
-              </div>
               <p className="card-text">
                 <Recaptcha
                   sitekey="6LecmBEUAAAAAIhnU81uEjMl43EvIXcxwKCivsti"
@@ -109,16 +92,10 @@ class SignUp extends Component {
                 type="submit"
                 disabled={!this.state.isCaptcha_Ok}
               >
-                Üye Ol
+                Kaydet
               </button>
               <hr className="my-4" />
             </form>
-            <p className="card-text text-muted text-center">
-              Zaten Üyeyim{' '}
-              <Link to="/register" className="text-success">
-                Giriş Yap
-              </Link>
-            </p>
           </div>
         </div>
         {/* <!--ENd Card--> */}
@@ -128,9 +105,14 @@ class SignUp extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('[Component PassReset] State :', state)
   return {
     errorMessage: state.err.error,
+    mesaj: state.msg.message,
   }
 }
 
-export default compose(connect(mapStateToProps, actions), reduxForm({ form: 'signup' }))(SignUp)
+export default compose(
+  connect(mapStateToProps, actions),
+  reduxForm({ form: 'passReset' })
+)(PassReset)

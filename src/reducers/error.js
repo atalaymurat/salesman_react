@@ -1,4 +1,4 @@
-import { HIDE_ERROR } from '../actions/types.js'
+import T from '../actions/types.js'
 
 const initState = {
   error: null,
@@ -12,7 +12,7 @@ function errorReducer(state = initState, action) {
       error: error,
       isOpen: true,
     }
-  } else if (action.type === HIDE_ERROR) {
+  } else if (action.type === T.HIDE_ERROR) {
     return {
       error: null,
       isOpen: false,

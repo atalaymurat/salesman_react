@@ -1,198 +1,268 @@
 import axios from 'axios'
-import {
-  AUTH_SIGN_UP,
-  AUTH_VERIFY,
-  AUTH_LOG_OUT,
-  AUTH_LOG_IN,
-  AUTH_LINK_GOOGLE,
-  AUTH_UNLINK_GOOGLE,
-  AUTH_LINK_FACEBOOK,
-  AUTH_UNLINK_FACEBOOK,
-  DASHBOARD_GET_DATA,
-  SET_ERROR,
-  HIDE_ERROR,
-} from './types.js'
+import T from './types.js'
 
-export const setError = error => {
+export const setError = (error) => {
   return {
-    type: SET_ERROR,
+    type: T.SET_ERROR,
     error: error,
   }
 }
 
 export const hideError = () => {
   return {
-    type: HIDE_ERROR,
+    type: T.HIDE_ERROR,
+  }
+}
+export const hideMessage = () => {
+  return {
+    type: T.HIDE_MESSAGE,
   }
 }
 
-export const oauthGoogle = data => {
-  return async dispatch => {
-    await axios.post('/users/oauth/google', {
+export const oauthGoogle = (data) => {
+  return async (dispatch) => {
+    await axios.post('/auth/google', {
       access_token: data,
     })
 
     dispatch({
-      type: AUTH_SIGN_UP,
+      type: T.AUTH_SIGN_UP,
     })
   }
 }
 
-export const linkGoogle = data => {
-  return async dispatch => {
-    const res = await axios.post('/users/oauth/link/google', {
+export const linkGoogle = (data) => {
+  return async (dispatch) => {
+    const res = await axios.post('/auth/link/google', {
       access_token: data,
     })
 
     dispatch({
-      type: AUTH_LINK_GOOGLE,
+      type: T.AUTH_LINK_GOOGLE,
       payload: res.data,
     })
   }
 }
 
-export const unlinkGoogle = data => {
-  return async dispatch => {
-    const res = await axios.post('/users/oauth/unlink/google')
+export const unlinkGoogle = (data) => {
+  return async (dispatch) => {
+    const res = await axios.post('/auth/unlink/google')
 
     dispatch({
-      type: AUTH_UNLINK_GOOGLE,
+      type: T.AUTH_UNLINK_GOOGLE,
       payload: res.data,
     })
   }
 }
 
-export const oauthFacebook = data => {
-  return async dispatch => {
-    await axios.post('/users/oauth/facebook', {
+export const oauthFacebook = (data) => {
+  return async (dispatch) => {
+    await axios.post('/auth/facebook', {
       access_token: data,
     })
 
     dispatch({
-      type: AUTH_SIGN_UP,
+      type: T.AUTH_SIGN_UP,
     })
   }
 }
 
-export const unlinkFacebook = data => {
-  return async dispatch => {
-    const res = await axios.post('/users/oauth/unlink/facebook')
+export const unlinkFacebook = (data) => {
+  return async (dispatch) => {
+    const res = await axios.post('/auth/unlink/facebook')
 
     dispatch({
-      type: AUTH_UNLINK_FACEBOOK,
+      type: T.AUTH_UNLINK_FACEBOOK,
       payload: res.data,
     })
   }
 }
 
-export const linkFacebook = data => {
-  return async dispatch => {
-    const res = await axios.post('/users/oauth/link/facebook', {
+export const linkFacebook = (data) => {
+  return async (dispatch) => {
+    const res = await axios.post('/auth/link/facebook', {
       access_token: data,
     })
     dispatch({
-      type: AUTH_LINK_FACEBOOK,
+      type: T.AUTH_LINK_FACEBOOK,
       payload: res.data,
     })
   }
 }
 
-export const signUp = data => {
-  return async dispatch => {
+export const signUp = (data) => {
+  return async (dispatch) => {
     try {
-      const res = await axios.post('/users/signup', data)
-      console.log('[SignUp Act] Response', res.data)
+      const res = await axios.post('/auth/signup', data)
       dispatch({
-        type: AUTH_SIGN_UP,
-        payload: res.data.error,
-        message: res.data.message
+        type: T.AUTH_SIGN_UP,
       })
       dispatch({
-        type: HIDE_ERROR,
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+      dispatch({
+        type: T.HIDE_ERROR,
       })
     } catch (error) {
       dispatch({
-        type: SET_ERROR,
+        type: T.SET_ERROR,
+        error: error.response.data.error,
+      })
+    }
+  }
+}
+export const changePass = (data) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post('/users/changepass', data)
+      dispatch({
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+    } catch (error) {
+      dispatch({
+        type: T.SET_ERROR,
+        error: error.response.data.error,
+      })
+    }
+  }
+}
+export const reVerify = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post('/users/reverify')
+      dispatch({
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+    } catch (error) {
+      dispatch({
+        type: T.SET_ERROR,
         error: error.response.data.error,
       })
     }
   }
 }
 
-export const verify = data => {
-  return async dispatch => {
+export const verify = (data) => {
+  return async (dispatch) => {
     try {
       const res = await axios.post('/users/verify', data)
-      console.log('[ACT-verify] data :', res.data)
       dispatch({
-        type: AUTH_VERIFY,
+        type: T.AUTH_VERIFY,
         payload: res.data.email_verified,
       })
     } catch (error) {
-      console.log('ACT-verify Error Res data :', error.response)
       dispatch({
-        type: SET_ERROR,
+        type: T.SET_ERROR,
         error: error.response.data.error,
       })
     }
   }
 }
 
-export const logIn = data => {
-  return async dispatch => {
+export const passForget = (data) => {
+  return async (dispatch) => {
     try {
-      const res = await axios.post('/users/login', data)
-      console.log('[ACt-login] data is : ', res.data)
-      var login = () => {
-        if (res.data.status === 'ok') {
-          return true
-        }
-      }
+      const res = await axios.post('/users/forget', data)
       dispatch({
-        type: AUTH_LOG_IN,
-        payload: login,
-      })
-      dispatch({
-        type: HIDE_ERROR,
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
       })
     } catch (error) {
-      console.log('error from server :', error.response.data)
       dispatch({
-        type: SET_ERROR,
+        type: T.SET_ERROR,
         error: error.response.data.error,
       })
+    }
+  }
+}
+
+export const passReset = (data) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post('/users/reset', data)
+      dispatch({
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+    } catch (error) {
+      dispatch({
+        type: T.SET_ERROR,
+        error: error.response.data.error,
+      })
+    }
+  }
+}
+
+export const logIn = (data) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post('/auth/login', data)
+
+      dispatch({
+        type: T.AUTH_LOG_IN,
+        payload: res.data.success,
+      })
+
+      dispatch({
+        type: T.HIDE_ERROR,
+      })
+    } catch (err) {
+      console.error('Error', err)
+      if (err) {
+        dispatch({
+          type: T.SET_ERROR,
+          error: err.response.data.error,
+        })
+      }
     }
   }
 }
 
 export const checkAuth = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      await axios.get('/users/status')
+      const res = await axios.get('/auth/status')
+      dispatch({
+        type: T.AUTH_LOG_IN,
+        payload: res.data.success,
+      })
+    } catch (error) {}
+  }
+}
+
+export const setUser = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get('/users/setuser')
 
       dispatch({
-        type: AUTH_SIGN_UP,
+        type: T.AUTH_SET_USER,
+        user: res.data.user,
       })
-
-      console.log('User is authenticated by action checkAuth')
-    } catch (error) {
-      console.log('[ACT-checkAuth] catch error from server', error)
+    } catch (err) {
+      if (err.response) {
+        dispatch(setError(err.response.data.error))
+      }
+      dispatch(logOut())
     }
   }
 }
 
 export const getDashboard = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      const res = await axios.get('/users/dashboard')
+      const res = await axios.get('/auth/dashboard')
 
       dispatch({
-        type: DASHBOARD_GET_DATA,
+        type: T.DASHBOARD_GET_DATA,
         payload: res.data,
       })
     } catch (err) {
       dispatch({
-        type: SET_ERROR,
+        type: T.SET_ERROR,
         payload: err.response.data.error,
       })
       console.error('error', err)
@@ -201,15 +271,207 @@ export const getDashboard = () => {
 }
 
 export const logOut = () => {
-  return async dispatch => {
-    await axios.get('/users/logout')
+  return async (dispatch) => {
+    await axios.get('/auth/logout')
 
     dispatch({
-      type: AUTH_LOG_OUT,
-      error: null,
+      type: T.AUTH_LOG_OUT,
     })
     dispatch({
-      type: HIDE_ERROR,
+      type: T.HIDE_ERROR,
+    })
+    dispatch({
+      type: T.HIDE_MESSAGE,
+    })
+  }
+}
+
+export const getAdverts = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get('/leads')
+      dispatch({
+        type: T.ADVERTS_GET_DATA,
+        payload: res.data.leads,
+      })
+      console.log(`
+      getLeads Action Creater Thunk
+      -------------------------------
+      state allLeads total: ${getState().leads.allLeads.length}
+      isLoaded: ${getState().leads.isLoaded}
+    `)
+    } catch (err) {
+      dispatch(setError(err.response.data.error))
+    }
+  }
+}
+export const newAdvert = (formData) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.post('/leads', formData)
+      dispatch({
+        type: T.ADVERTS_NEW,
+        payload: res.data.lead,
+      })
+      dispatch({
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+      dispatch({
+        type: T.HIDE_ERROR,
+      })
+      if (res.data.success) {
+        dispatch({
+          type: T.SUBMITTING,
+          payload: false,
+        })
+      }
+    } catch (err) {
+      if (err.response) {
+        dispatch({
+          type: T.SET_ERROR,
+          error: err.response.data.error,
+        })
+        if (err.response.data.message) {
+          dispatch({
+            type: T.SET_MESSAGE,
+            payload: err.response.data.message,
+          })
+        }
+      }
+    }
+  }
+}
+export const publishLead = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.patch(`/leads/publish/${id}`)
+      dispatch({
+        type: T.LEAD_PUBLISH,
+        payload: res.data.lead,
+      })
+    } catch (err) {
+      if (err) {
+        dispatch({
+          type: T.SET_ERROR,
+          error: err.response.data.error,
+        })
+      }
+    }
+  }
+}
+
+export const editAdvert = (formData) => {
+  return async (dispatch) => {
+    try {
+      let id = formData._id
+      const res = await axios.patch(`/leads/${id}`, formData)
+      console.log('EDIT RESPONSE', res.data.lead)
+      dispatch({
+        type: T.ADVERTS_EDIT,
+        payload: res.data.lead,
+      })
+      dispatch({
+        type: T.SET_MESSAGE,
+        payload: res.data.message,
+      })
+      if (res.data.success) {
+        dispatch({
+          type: T.SUBMITTING,
+          payload: false,
+        })
+      }
+    } catch (err) {
+      if (err) {
+        dispatch({
+          type: T.SET_ERROR,
+          error: err.response.data.error,
+        })
+      }
+    }
+  }
+}
+export const getAdvert = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      console.log('ADVERT ID : ', id)
+      const res = await axios.get(`/leads/${id}`)
+      dispatch({
+        type: T.ADVERTS_GET_BYID,
+        payload: res.data.lead,
+      })
+      console.log(`
+      getAdvert one Action Creater Thunk
+      -------------------------------
+      id : ${getState().leads.currentLead._id}
+      title : ${getState().leads.currentLead.title}
+      brand : ${
+        getState().leads.currentLead.brand
+          ? getState().leads.currentLead.brand.name
+          : null
+      }
+      images : ${getState().leads.currentLead.images.length}
+      user : ${getState().leads.currentLead.user.local.email}
+      -------------------------------
+    `)
+    } catch (err) {
+      if (err.response) {
+        dispatch(setError(err.response.data.error))
+      }
+    }
+  }
+}
+export const advertReset = () => {
+  return (dispatch) => {
+    dispatch({
+      type: T.ADVERT_RESET,
+    })
+  }
+}
+export const deleteAdvert = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/leads/${id}`)
+      dispatch({
+        type: T.ADVERTS_DELETE_BYID,
+        payload: id,
+      })
+    } catch (err) {
+      dispatch(setError(err.response.data.error))
+    }
+  }
+}
+export const isSubmitting = (value) => {
+  return (dispatch) => {
+    dispatch({
+      type: T.SUBMITTING,
+      payload: value,
+    })
+  }
+}
+
+export const getSuggestedBrands = (value) => async (dispatch) => {
+  try {
+    dispatch({
+      type: T.FETCH_BRANDS,
+    })
+    const res = await axios.get(`/brands/${value}`)
+    console.log(`
+    ----------------------------
+    Brands Suggested : ${JSON.stringify(res.data)}
+    ----------------------------
+  `)
+    dispatch({
+      type: T.SUGGEST_BRANDS,
+      payload: res.data,
+    })
+    dispatch({
+      type: T.CANCEL_FETCH_BRANDS,
+    })
+  } catch (err) {
+    dispatch(setError(err.response.data.error))
+    dispatch({
+      type: T.CANCEL_FETCH_BRANDS,
     })
   }
 }

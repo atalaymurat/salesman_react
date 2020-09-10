@@ -2,27 +2,27 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import logo from '../makinatrlogo.svg'
 
 import * as actions from '../actions'
 
 class Header extends Component {
-  constructor(props) {
-    super(props)
-    this.logOut = this.logOut.bind(this)
-  }
-
-  logOut() {
-    this.props.logOut()
+  componentDidMount = async () => {
+    await this.props.setUser()
   }
 
   renderUserThumb() {
-    if (this.props.isAuth && this.props.user.picture) {
+    if (this.props.user && this.props.user.methods.includes('google')) {
       return (
         <li className="nav-item" key="picture">
-          <Link className="nav-link" to="/dashboard">
+          <Link className="nav-link" to="/panel">
             <img
-              src={this.props.user.picture}
+              src={
+                this.props.user.google.picture
+                  ? this.props.user.google.picture
+                  : null
+              }
               alt="user_picture"
               className="rounded-circle"
               style={{ width: 25 }}
@@ -36,23 +36,27 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar sticky-top navbar-expand navbar-dark bg-dark" style={{ marginBottom: 25 }}>
+        <nav className="navbar sticky-top navbar-expand navbar-dark bg-dark py-0">
           <div className="container">
             <Link className="navbar-brand" to="/">
-              MakinaTR.com
+              <img
+                src={logo}
+                className="align-middle"
+                height={15}
+                alt="makinatr logo"
+              />
+              <span className="makinatr">makinaTr</span>
             </Link>
 
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav mr-auto">
-                {this.props.isAuth
+                {this.props.user
                   ? [
-                      <li className="nav-item" key="dashboard">
-                        <Link className="nav-link" to="/dashboard">
-                          {this.props.user.displayName ? (
-                            <small>{this.props.user.displayName}</small>
-                          ) : (
-                            <small>Hesap</small>
-                          )}
+                      <li className="nav-item" key="panel">
+                        <Link className="nav-link" to="/panel">
+                          {this.props.user.local ? (
+                            <small>{this.props.user.local.email}</small>
+                          ) : null}
                         </Link>
                       </li>,
                     ]
@@ -63,7 +67,7 @@ class Header extends Component {
                 {!this.props.isAuth && (
                   <li className="nav-item" key="reg">
                     <Link className="nav-link" to="/register">
-                      <FontAwesomeIcon icon={faSignInAlt} size="lg" inverse />
+                      <FontAwesomeIcon icon={faUserPlus} size="lg" inverse />
                     </Link>
                   </li>
                 )}
@@ -72,8 +76,17 @@ class Header extends Component {
 
                 {this.props.isAuth && (
                   <li className="nav-item" key="logout">
-                    <Link className="nav-link" to="/logout" onClick={this.logOut}>
-                      <FontAwesomeIcon icon={faSignOutAlt} size="lg" inverse alt="Sign Out" />
+                    <Link
+                      className="nav-link"
+                      to="/register"
+                      onClick={() => this.props.logOut()}
+                    >
+                      <FontAwesomeIcon
+                        icon={faSignOutAlt}
+                        size="lg"
+                        inverse
+                        alt="Sign Out"
+                      />
                     </Link>
                   </li>
                 )}
@@ -88,7 +101,7 @@ class Header extends Component {
 function mapStateToProps(state) {
   return {
     isAuth: state.auth.isAuthenticated,
-    user: state.dash.user,
+    user: state.auth.user,
   }
 }
 export default connect(mapStateToProps, actions)(Header)

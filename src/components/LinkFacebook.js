@@ -4,7 +4,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import conf from '../.configuration.js'
 
 const LinkFacebook = props => {
-  if (!props.dash.methods.includes("facebook")) {
+  if (!props.auth.user.methods.includes("facebook")) {
     return (
       <FacebookLogin
         appId={conf.facebook.APP_ID}
@@ -15,9 +15,9 @@ const LinkFacebook = props => {
           <button
             onClick={renderProps.onClick}
             className="btn btn-primary mr-2 mb-2"
-            disabled={props.dash.methods.includes('facebook') ? true : false}
+            disabled={props.auth.user.methods.includes('facebook') ? true : false}
           >
-            Facebook Hesabı Ekle
+            Facebook
           </button>
         )}
       />
@@ -28,7 +28,7 @@ const LinkFacebook = props => {
         style={{ marginRight: 15 }}
         className="btn btn-danger mr-2 mb-2"
         onClick={() => props.unlinkFacebook()}
-        disabled={props.dash.methods.includes('facebook') ? false : true}
+        disabled={props.auth.user.methods.includes('facebook') ? false : true}
       >
         Facebook Hesabını Ayır
       </button>

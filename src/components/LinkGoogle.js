@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login'
 import conf from '../.configuration.js'
 
 const LinkGoogle = props => {
-  if (!props.dash.methods.includes('google')) {
+  if (!props.auth.user.methods.includes('google')) {
     return (
       <GoogleLogin
         clientId={conf.google.CLIENT_ID}
@@ -16,7 +16,7 @@ const LinkGoogle = props => {
             onClick={renderProps.onClick}
             className="btn btn-warning mb-2"
           >
-            Google Hesabı Ekle
+            Google
           </button>
         )}
       />

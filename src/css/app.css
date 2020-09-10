@@ -1,0 +1,13 @@
+.makinatr {
+  letter-spacing: -1.7px;
+  font-family: Futura, Arial, Helvetica, sans-serif;
+  font-size-adjust: 0.6px;
+  margin-left: 2px;
+}
+.fa-hover {
+  cursor: pointer;
+}
+.fa-hover:hover {
+  cursor: pointer;
+  color: red;
+}
