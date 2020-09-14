@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { getCatPath } from '../Helpers/helpers'
 import { useEffect } from 'react'
-import _ from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolderOpen, faFolder } from '@fortawesome/free-solid-svg-icons'
+import { update } from 'immupdate'
 
 const getChilds = (cat) => {
   if (!cat.children) return []
@@ -14,24 +14,55 @@ const Tree = (props) => {
   const {
     input: { value },
   } = props
-  const { cats } = props
+  const { cats, getPath } = props
 
-  const parentArray = (item) => {
-    let parents = item.path.split(',').filter((i) => i !== '')
-    return parents
+  const updateChildren = (cat) => {
+    const newChildren = cat.children.map((c) =>
+      c._id === value ? update(c, { isOpen: true }) : c
+    )
+
+    const newCat = update(cat, { children: newChildren })
+    const hasIsOpen = cat.children.find((f) => f._id === value)
+
+    const subs = []
+    // Sub depth 2 lerını arraye atıyoruz
+    cat.children.map((sub) => {
+      if (sub.children) {
+        sub.children.map((sub2) => {
+          subs.push(sub2)
+          return sub
+        })
+      }
+      return sub
+    })
+    const hasValue = subs.find((f) => f._id === value)
+    const idChild = hasValue ? hasValue.path.split(',')[2] : ''
+    // Eger depth2 de değer var ise depth1 açık haline getiriyoruz
+    const updChildren = newCat.children.map((c) =>
+      c._id === idChild ? update(c, { isOpen: true }) : c
+    )
+    const updCat = update(newCat, { children: updChildren })
+
+    if (hasIsOpen || hasValue !== undefined) {
+      const newCatOpen = update(updCat, { isOpen: true })
+      return newCatOpen
+    }
+    return newCat
   }
 
   const getSelectedList = (list) => {
-    let flatList = []
-    list.map((item) => {
-      flatList.push(item)
+    return list.map((cat) => {
+      const newCat = cat.children ? updateChildren(cat) : cat
+      const ifSelfSelected =
+        newCat._id === value ? update(newCat, { isOpen: true }) : newCat
+      return ifSelfSelected
     })
-    return flatList
   }
+
   return (
     <>
       {getSelectedList(cats)
-        // .sort((a, b) => (getPath(a) > getPath(b) ? 1 : -1))
+        .sort((a, b) => (getPath(a) > getPath(b) ? 1 : -1))
         .map((cat) => (
           <ul className="list-unstyled" key={cat._id}>
             <TreeCat cat={cat} {...props} />
@@ -44,6 +75,7 @@ const TreeCat = (props) => {
   const {
     cat,
     onToggle,
+    getPath,
     input: { value, onChange },
     meta: { touched, error },
   } = props
@@ -70,19 +102,22 @@ const TreeCat = (props) => {
         <label className="form-check-label" htmlFor={cat._id}>
           {cat.name}
         </label>
-        {cat.children && cat.depth < 2  && (
-            <FontAwesomeIcon icon={cat.isOpen ? faFolderOpen : faFolder}
-            style={{cursor: "pointer", marginLeft: "4px"}}
+        {cat.children && cat.depth < 2 && (
+          <FontAwesomeIcon
+            icon={cat.isOpen ? faFolderOpen : faFolder}
+            style={{ cursor: 'pointer', marginLeft: '4px' }}
             onClick={() => onToggle(cat)}
-            />
+          />
         )}
 
         {cat.isOpen && (
           <ul>
             {cat.isOpen &&
-              getChilds(cat).map((cat2, i) => (
-                <TreeCat {...props} cat={cat2} depth={cat2.depth} key={i} />
-              ))}
+              getChilds(cat)
+                .sort((a, b) => (getPath(a) > getPath(b) ? 1 : -1))
+                .map((cat2, i) => (
+                  <TreeCat {...props} cat={cat2} depth={cat2.depth} key={i} />
+                ))}
           </ul>
         )}
       </div>
@@ -111,14 +146,14 @@ const SelectCatForm = (props) => {
         const newCats = categories.map((cats) =>
           cats._id === c._id ? c : cats
         )
-        setCategories([...newCats])
+        return setCategories([...newCats])
       })
     }
     if (findCat) {
       const newCats = categories.map((cat) =>
         cat._id !== findCat._id ? cat : { ...cat, isOpen: !cat.isOpen }
       )
-      setCategories([...newCats])
+      return setCategories([...newCats])
     }
   }
 

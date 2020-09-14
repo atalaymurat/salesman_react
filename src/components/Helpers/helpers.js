@@ -9,7 +9,7 @@ export const checkOwner = (userId, contentId) => {
   }
 }
 export const getCatPath = (cat, catList) => {
-  let splitedArr = cat.path.split(',')
+  let splitedArr = cat.path ? cat.path.split(',') : []
   let fullPath = ''
   if (!cat.path) {
     fullPath = cat.name + '/'
@@ -30,18 +30,27 @@ export const getCatPath = (cat, catList) => {
 
 export const formatAmountDisplay = (value) => {
   if (!value) return
-  return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, '.')
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 export const formatAmount = (value) => {
   if (!value) return
   return value
     .toString()
     .replace(/[,.$€£]|[^0-9]/g, '')
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, '.')
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 
 export const normalizeAmount = (value) => {
-  return value.toString().replace(/ |,|\.|/g, '')
+  return value
+  .toString().replace(/ |,|\.|/g, '')
+}
+
+export const truncateStr = (str, n) => {
+  if (str.length > n) {
+    return str.slice(0, n) + '...'
+  } else {
+    return str
+  }
 }
 
 export const maxLength = (max) => (value) =>

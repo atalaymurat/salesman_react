@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Table } from 'react-bootstrap'
-import { CustomPlaceholder } from 'react-placeholder-image';
+import { CustomPlaceholder } from 'react-placeholder-image'
 import { formatAmountDisplay } from '../Helpers/helpers'
 
 import * as actions from '../../actions'
@@ -40,20 +40,24 @@ class AdvertShow extends React.Component {
   render() {
     const { advert } = this.props
     return (
-      <Container fluid="md" className="mb-2">
+      <Container fluid="md" className="my-2">
         <Row>
           <Col>
-            <h1>{this.props.advert.title}</h1>
+            <h1 className="h2 text-capitalize">{this.props.advert.title}</h1>
           </Col>
         </Row>
         <Row xs={1} md={2}>
           <Col className="mb-2">
-            {this.props.advert.images && this.props.advert.images.length ?
-            <BootstrapCarousel images={this.props.advert.images} />
-          :
-          <CustomPlaceholder width={640} height={640} className="img-fluid border border-dark"
-          text="makinaTr.com" />
-          }
+            {this.props.advert.images && this.props.advert.images.length ? (
+              <BootstrapCarousel images={this.props.advert.images} />
+            ) : (
+              <CustomPlaceholder
+                width={640}
+                height={640}
+                className="img-fluid border border-dark"
+                text="makinaTr.com"
+              />
+            )}
           </Col>
           <Col>
             <Table bordered size="sm">
@@ -96,6 +100,12 @@ class AdvertShow extends React.Component {
                     {new Date(advert.created_at).getFullYear()}{' '}
                     {this.pad(new Date(advert.created_at).getHours())}:
                     {this.pad(new Date(advert.created_at).getMinutes())}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">İlan Durumu</th>
+                  <td className="text-capitalize">
+                    {this.props.advert.saleType && this.props.advert.saleType}
                   </td>
                 </tr>
                 <tr>

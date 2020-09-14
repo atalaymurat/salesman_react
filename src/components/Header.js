@@ -36,7 +36,7 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar sticky-top navbar-expand navbar-dark bg-dark py-0">
+        <nav className="navbar fixed-top navbar-expand navbar-dark bg-dark py-0">
           <div className="container">
             <Link className="navbar-brand" to="/">
               <img

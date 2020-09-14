@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import {getCatPath} from "./Helpers/helpers"
+import { getCatPath } from './Helpers/helpers'
 import Axios from 'axios'
+import adminGuard from './HOCs/adminGuard'
 
 const CategoriesAdmin = (props) => {
   const [categories, setCategories] = useState([])
@@ -23,14 +24,9 @@ const CategoriesAdmin = (props) => {
   const handleUpdate = async (e) => {
     e.preventDefault()
     await Axios.patch(`/categories/${catId}`, { name, parentId: parent })
-    const catIndex = categories.findIndex((item) => item._id === catId)
-    let newCategories = [...categories]
-    newCategories[catIndex] = {
-      ...newCategories[catIndex],
-      name,
-      parentId: parent || null,
-    }
-    setCategories(newCategories)
+    const cats = await Axios.get('/categories')
+
+    setCategories(cats.data)
     setIsEditMode(false)
     setName('')
     setParent('/')
@@ -38,12 +34,10 @@ const CategoriesAdmin = (props) => {
 
   useEffect(() => {
     const getCategories = async () => {
-      const cat = await Axios.get('/categories/')
-      console.log('CAT : ', cat)
+      const cat = await Axios.get('/categories')
       setCategories(cat.data)
     }
     getCategories()
-
   }, [])
   const handleDelete = async (id) => {
     console.log(id)
@@ -164,7 +158,7 @@ const CategoriesAdmin = (props) => {
       <h1>Kategoriler</h1>
       <ul className="list-unstyled">
         {categories
-          .filter((item) => item.parentId === null)
+          .filter((item) => item.depth === 0)
           .sort((a, b) => (getPath(a) > getPath(b) ? 1 : -1))
           .map((item, index) => (
             <li key={item._id}>
@@ -249,4 +243,4 @@ const CategoriesAdmin = (props) => {
   )
 }
 
-export default CategoriesAdmin
+export default adminGuard(CategoriesAdmin)

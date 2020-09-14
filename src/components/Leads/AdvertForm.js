@@ -15,7 +15,7 @@ import StandartInput from '../StandartInput.js'
 import HorizantalInput from '../FormInputs/HorizantalInput.js'
 import RowInput from '../FormInputs/RowInput.js'
 import SelectCatForm from '../FormInputs/SelectCatForm.js'
-import CurrencyRadioInput from '../FormInputs/CurrencyRadioInput'
+import RadioInput from '../FormInputs/RadioInput'
 import AutoSuggestBrands from '../AutoSuggestBrands'
 import Axios from 'axios'
 import ImageDropzone from '../ImageDropzone'
@@ -70,11 +70,9 @@ let AdvertForm = (props) => {
     }
 
     values['images'] = resUpload.images
-    console.log('VALUES FROM FORM', values)
     values.price
       ? (values.price.amount = normalizeAmount(values.price.amount))
       : (values.price = { amount: '', currency: '' })
-    console.log('PARSED AMOUNT', values.price.amount)
     const path = props.location.pathname
     if (path === '/adverts/new') {
       // Sending Data to Api
@@ -151,7 +149,7 @@ let AdvertForm = (props) => {
                         src={
                           process.env.NODE_ENV !== 'development'
                             ? image.url &&
-                              'http://api.makinatr.com' + image.url.thumb
+                            process.env.REACT_APP_API_HOST + image.url.thumb
                             : image.url && image.url.thumb
                         }
                         key={image._id}
@@ -264,8 +262,9 @@ let AdvertForm = (props) => {
               <Field
                 name={'price.currency'}
                 init={props.currency}
-                component={CurrencyRadioInput}
+                component={RadioInput}
                 type="radio"
+                dataOptions={['tl', 'eur', 'usd']}
                 className="form-check-input"
                 validate={[requiredSelect]}
               />
@@ -273,12 +272,24 @@ let AdvertForm = (props) => {
           </div>
         </div>
       </div>
-        <Field
-          name="category._id"
-          component={SelectCatForm}
-          data={catData}
-          validate={[requiredSelect]}
-        />
+      <Field
+        name="category._id"
+        component={SelectCatForm}
+        data={catData}
+        validate={[requiredSelect]}
+      />
+      <div className="form-group row">
+        <label className="col-2 col-form-label">Teklif Durumu</label>
+        <div className="col-10">
+          <Field
+            name="saleType"
+            component={RadioInput}
+            init={props.saleType && props.saleType}
+            dataOptions={['yeni', 'kullanılmış']}
+            validate={[requiredSelect]}
+          />
+        </div>
+      </div>
 
       {!props.leads.isSubmitting ? (
         <div>
@@ -309,9 +320,11 @@ AdvertForm = connect((state) => {
   // can select values individually
   const cover = selector(state, 'cover')
   const currency = selector(state, 'price.currency')
+  const saleType = selector(state, 'saleType')
   return {
     cover,
     currency,
+    saleType,
   }
 })(AdvertForm)
 

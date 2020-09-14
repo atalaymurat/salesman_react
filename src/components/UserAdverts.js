@@ -22,7 +22,7 @@ const UserAdverts = (props) => {
           </Link>
         </Card.Body>
       </Card>
-      <h2>İlanlarım</h2>
+      {props.leads.length ? <h2>İlanlarım</h2> : null}
       <Row>
         {props.leads
           .filter((item) => item.user._id === props.auth.user._id )

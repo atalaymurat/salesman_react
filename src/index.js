@@ -23,9 +23,10 @@ import AdvertEdit from './components/Leads/AdvertEdit'
 
 axios.defaults.withCredentials = true
 if (process.env.NODE_ENV !== 'development') {
-  axios.defaults.baseURL = 'http://api.makinatr.com'
+  axios.defaults.baseURL = process.env.REACT_APP_API_HOST
 }
-window.store = store
+// window.store = store
+// Dispatch ekran consoleda kullanmak için
 
 ReactDOM.render(
   <Provider store={store}>

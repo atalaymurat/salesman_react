@@ -229,7 +229,9 @@ export const checkAuth = () => {
         type: T.AUTH_LOG_IN,
         payload: res.data.success,
       })
-    } catch (error) {}
+    } catch (err) {
+      dispatch(setError(err.response.data.error))
+    }
   }
 }
 
@@ -246,7 +248,6 @@ export const setUser = () => {
       if (err.response) {
         dispatch(setError(err.response.data.error))
       }
-      dispatch(logOut())
     }
   }
 }
@@ -272,6 +273,7 @@ export const getDashboard = () => {
 
 export const logOut = () => {
   return async (dispatch) => {
+    try{
     await axios.get('/auth/logout')
 
     dispatch({
@@ -283,6 +285,10 @@ export const logOut = () => {
     dispatch({
       type: T.HIDE_MESSAGE,
     })
+
+    }catch (err){
+      dispatch(setError('err on LogOut'))
+    }
   }
 }
 
@@ -301,7 +307,7 @@ export const getAdverts = () => {
       isLoaded: ${getState().leads.isLoaded}
     `)
     } catch (err) {
-      dispatch(setError(err.response.data.error))
+      dispatch(setError('err on getAdverts'))
     }
   }
 }

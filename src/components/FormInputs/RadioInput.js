@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const CurrencyRadioInput = (props) => {
+const RadioInput = (props) => {
   const [rvalue, setRvalue] = useState(null)
   useEffect(() => {
     setRvalue(props.init)
@@ -10,6 +10,7 @@ const CurrencyRadioInput = (props) => {
   const {
     input: {  onChange },
     meta: { touched, error, warning },
+    dataOptions
   } = props
   const handleChange = (val) => {
     onChange(val)
@@ -17,7 +18,7 @@ const CurrencyRadioInput = (props) => {
   }
   return (
     <>
-      {['tl', 'eur', 'usd'].map((item, i) => (
+      {dataOptions.map((item, i) => (
         <div className="form-check form-check-inline" key={i}>
           <input
             name={props.name}
@@ -29,12 +30,12 @@ const CurrencyRadioInput = (props) => {
                 : 'form-check-input'
             }
             type="radio"
-            value={item}
+            value={item.toLowerCase()}
             onChange={(e) => handleChange(e.target.value)}
             checked={rvalue === item}
           />
-          <label htmlFor={item} className="form-check-label">
-            {item.toUpperCase()}
+          <label htmlFor={item} className="form-check-label py-2">
+            {item}
           </label>
         </div>
       ))}
@@ -52,4 +53,4 @@ const CurrencyRadioInput = (props) => {
     </>
   )
 }
-export default CurrencyRadioInput
+export default RadioInput

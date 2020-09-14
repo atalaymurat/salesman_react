@@ -15,7 +15,7 @@ export class BootstrapCarousel extends Component {
                   className="d-block mx-auto img-fluid"
                   src={
                     process.env.NODE_ENV !== 'development'
-                      ? 'http://api.makinatr.com' + img.url.mid
+                      ? process.env.REACT_APP_API_HOST + img.url.mid
                       : img.url.mid
                   }
                   alt={`image_${i}`}

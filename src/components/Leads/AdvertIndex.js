@@ -8,13 +8,15 @@ import AdvertListItem from './AdvertListItem'
 
 class AdvertIndex extends Component {
   async componentDidMount() {
-     await this.props.getAdverts()
+    await this.props.getAdverts()
   }
   renderAdverts(adverts) {
     return (
-      <Container fluid>
+      <Container fluid className="mt-1">
         <Row>
-          <Col className="h2">2.El Makinalar</Col>
+          <Col>
+            <h1 className="h3">En İyi Makinalar</h1>
+          </Col>
         </Row>
         <Row className="rounded-0">
           {adverts
@@ -22,8 +24,8 @@ class AdvertIndex extends Component {
             .filter((item) => item.cover && item.cover._id)
             .slice(0, 6)
             .map((ad) => (
-            <AdvertListItem ad={ad} {...this.props} />
-          ))}
+              <AdvertListItem ad={ad} {...this.props} />
+            ))}
         </Row>
       </Container>
     )

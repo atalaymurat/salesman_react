@@ -68,7 +68,7 @@ const LeadListView = ({
                 src={
                   process.env.NODE_ENV !== 'development'
                     ? lead.cover &&
-                      'http://api.makinatr.com' + lead.cover.url.thumb
+                    process.env.REACT_APP_API_HOST + lead.cover.url.thumb
                     : lead.cover && lead.cover.url.thumb
                 }
                 style={{

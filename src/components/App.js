@@ -20,17 +20,19 @@ const App = (props) => {
     position: 'relative',
     minHeight: '100vh',
   }
+  // Bu değer footerın yüksekligine göre değişecek
   const contentWrap = {
-    paddingBottom: 170,
+    paddingBottom: 60,
   }
 
   return (
     <main style={pageContainer}>
-      <Header />
+      <Header
+      />
       {window.location.pathname === '/' ? <JumbotronHome /> : null}
       <FlashBlock />
       <div style={contentWrap}>{props.children}</div>
-      <Footer />
+       <Footer />
     </main>
   )
 }

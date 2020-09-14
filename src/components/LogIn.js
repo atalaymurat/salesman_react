@@ -58,10 +58,16 @@ class LogIn extends Component {
             <h1 className="display-4 text-center text-dark">Giriş Yap</h1>
           </div>
           <div className="card-body">
-            <form className="form-signin" onSubmit={handleSubmit(this.onSubmit)}>
+            <form
+              className="form-signin"
+              onSubmit={handleSubmit(this.onSubmit)}
+            >
               {/* <--ERROR ALERT BLOCK--> */}
-              {this.props.errorMessage && this.props.errorMessage.length >= 2 ? (
-                <div className="alert alert-danger">{this.props.errorMessage}</div>
+              {this.props.errorMessage &&
+              this.props.errorMessage.length >= 2 ? (
+                <div className="alert alert-danger">
+                  {this.props.errorMessage}
+                </div>
               ) : null}
 
               <fieldset>
@@ -90,7 +96,11 @@ class LogIn extends Component {
               </fieldset>
 
               <div className="custom-control custom-checkbox mb-3">
-                <input type="checkbox" className="custom-control-input" id="loginRemember" />
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="loginRemember"
+                />
                 <label className="custom-control-label" htmlFor="loginRemember">
                   Beni hatırla
                 </label>
@@ -112,7 +122,7 @@ class LogIn extends Component {
           <div className="card-footer bg-gray">
             <GoogleLogin
               clientId={conf.google.CLIENT_ID}
-              render={renderProps => (
+              render={(renderProps) => (
                 <button
                   onClick={renderProps.onClick}
                   className="btn btn-lg btn-google btn-block text-uppercase"
@@ -143,11 +153,13 @@ class LogIn extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('Login Component state: ', state)
   return {
     errorMessage: state.err.error,
     isAuthenticated: state.auth.isAuthenticated,
   }
 }
 
-export default compose(connect(mapStateToProps, actions), reduxForm({ form: 'login' }))(LogIn)
+export default compose(
+  connect(mapStateToProps, actions),
+  reduxForm({ form: 'login' })
+)(LogIn)

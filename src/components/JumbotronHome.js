@@ -37,13 +37,13 @@ const JumbotronHome = (props) => {
   return (
     <Jumbotron
       style={{
-        backgroundImage: 'url(http://api.makinatr.com/cover_robotics.jpg)',
+        backgroundImage: `url(${process.env.REACT_APP_API_HOST}/cover_robotics.jpg)`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         WebkitBackgroundSize: 'cover',
         MozBackgroundSize: 'cover',
       }}
-      className="rounded-0 py-5"
+      className="rounded-0 py-5 mb-0"
     >
       <Container>
         <div

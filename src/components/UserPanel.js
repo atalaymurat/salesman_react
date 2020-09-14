@@ -12,7 +12,7 @@ import * as actions from '../actions'
 import PassChange from './PassChange.js'
 import UserAdverts from './UserAdverts.js'
 import CategoriesAdmin from './CategoriesAdmin.js'
-import "../css/tabs.css"
+import '../css/tabs.css'
 
 class UserPanel extends Component {
   constructor(props) {
@@ -262,9 +262,11 @@ class UserPanel extends Component {
               </Card>
             )}
           </Tab>
-          <Tab eventKey="kategoriler" title="Kategoriler">
-            <CategoriesAdmin />
-          </Tab>
+          {user.isAdmin && (
+            <Tab eventKey="kategoriler" title="Kategoriler">
+              <CategoriesAdmin />
+            </Tab>
+          )}
         </Tabs>
       </Container>
     )

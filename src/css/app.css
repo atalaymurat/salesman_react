@@ -11,3 +11,7 @@
   cursor: pointer;
   color: red;
 }
+body{
+  /* top header fixed oldugu için */
+  padding-top: 40px;
+}
