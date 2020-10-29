@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 
 export default OriginalComponent => {
   class MixedComponent extends Component {
-    checkAuth(){
+    checkIsAuthenticated(){
       if (!this.props.isAuthenticated) {
         this.props.history.push("/")
       }
     }
-    componentDidMount() {
-      this.checkAuth()
+    async componentDidMount () {
+      await this.checkIsAuthenticated()
     }
-    componentDidUpdate() {
-      this.checkAuth()
+    async componentDidUpdate() {
+      await this.checkIsAuthenticated()
     }
 
     render() {
@@ -21,7 +21,7 @@ export default OriginalComponent => {
   }
   function mapStateToProps(state) {
     return {
-      isAuthenticated: state.auth.isAuthenticated,
+      isAuthenticated: state.auth.user.isAuthenticated,
     }
   }
 

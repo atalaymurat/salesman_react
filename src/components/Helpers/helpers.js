@@ -1,10 +1,8 @@
 // content userın mı değil mi check etmek için kullanılmıyor
 export const checkOwner = (userId, contentId) => {
   if (userId === contentId) {
-    console.log('CHECKED TRUE')
     return true
   } else {
-    console.log('CHECKED FALSE')
     return false
   }
 }
@@ -41,15 +39,18 @@ export const formatAmount = (value) => {
 }
 
 export const normalizeAmount = (value) => {
-  return value
-  .toString().replace(/ |,|\.|/g, '')
+  return value.toString().replace(/ |,|\.|/g, '')
 }
 
 export const truncateStr = (str, n) => {
-  if (str.length > n) {
-    return str.slice(0, n) + '...'
+  if (str) {
+    if (str.length > n) {
+      return str.slice(0, n) + '...'
+    } else {
+      return str
+    }
   } else {
-    return str
+    return ''
   }
 }
 
@@ -67,3 +68,34 @@ export const minValue1800 = minValue(1800)
 export const minValue1 = minValue(1)
 export const requiredSelect = (value) =>
   value || typeof value === 'number' ? undefined : 'Bir seçim yapılmalısınız.'
+
+export const verifyUserToPostLead = (user) => {
+  if (
+    user.local.email_verified &&
+    user.name.first &&
+    user.name.last &&
+    user.phone.mobile
+  )
+    return true
+  else return false
+}
+
+export const pad = (n) => {
+  return n < 10 ? '0' + n : n
+}
+
+export const formingDate = (date) =>
+  date
+    ? `${pad(new Date(date).getDate())}/${pad(
+        new Date(date).getMonth() + 1
+      )}/${new Date(date).getFullYear()} ${pad(
+        new Date(date).getHours()
+      )}:${pad(new Date(date).getMinutes())}`
+    : ''
+
+export const formatCurrency = (c) => {
+  if (c === 'eur') return '€'
+  if (c === 'usd') return '$'
+  if (c === 'tl') return '₺'
+  return '-'
+}

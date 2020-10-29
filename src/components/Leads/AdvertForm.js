@@ -10,15 +10,16 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { required, minLength4 } from '../StandartInput'
-import StandartInput from '../StandartInput.js'
+import { required, minLength4 } from '../FormInputs/StandartInput'
+import StandartInput from '../FormInputs/StandartInput.js'
 import HorizantalInput from '../FormInputs/HorizantalInput.js'
 import RowInput from '../FormInputs/RowInput.js'
 import SelectCatForm from '../FormInputs/SelectCatForm.js'
 import RadioInput from '../FormInputs/RadioInput'
-import AutoSuggestBrands from '../AutoSuggestBrands'
+import AutoSuggestBrands from '../Helpers/AutoSuggestBrands'
+import PlacesInput from '../FormInputs/PlacesInput'
 import Axios from 'axios'
-import ImageDropzone from '../ImageDropzone'
+import ImageDropzone from '../FormInputs/ImageDropzone'
 import {
   isSubmitting,
   hideError,
@@ -38,6 +39,7 @@ import {
   minValue1,
   requiredSelect,
 } from '../Helpers/helpers'
+import youTubeIcon from '../../icons8-youtube.svg'
 
 let AdvertForm = (props) => {
   const [images, setImages] = useState([])
@@ -46,13 +48,11 @@ let AdvertForm = (props) => {
   const dropzoneRef = useRef()
 
   const submit = async (values) => {
-    console.log('SUBMIT CLICKED')
     dispatch(isSubmitting(true))
     dispatch(hideError())
     dispatch(hideMessage())
 
     let resUpload = await dropzoneRef.current.upFiles()
-    console.log('[RES UPLOAD]', resUpload)
     if (!resUpload) {
       dispatch(isSubmitting(false))
       dispatch(setError('Tekrar Deneyiniz, Bir hata oluştu'))
@@ -74,7 +74,7 @@ let AdvertForm = (props) => {
       ? (values.price.amount = normalizeAmount(values.price.amount))
       : (values.price = { amount: '', currency: '' })
     const path = props.location.pathname
-    if (path === '/adverts/new') {
+    if (path === '/makinalar/new') {
       // Sending Data to Api
       dispatch(newAdvert(values))
     } else {
@@ -86,7 +86,7 @@ let AdvertForm = (props) => {
       dispatch(isSubmitting(false))
     } else {
       dispatch(isSubmitting(false))
-      props.history.push('/panel/')
+      props.history.push('/panel/user/makinalar')
     }
   }
 
@@ -96,7 +96,6 @@ let AdvertForm = (props) => {
       let res = await Axios.delete(`/images/${id}`)
       if (res.data.success) {
         let newImages = images.filter((item) => item._id !== id)
-        console.log('NEW IMAGES', newImages)
         setImages(newImages)
         if (id === props.cover._id) {
           props.cover._id = images[0]._id
@@ -116,17 +115,17 @@ let AdvertForm = (props) => {
     const getCatData = async () => {
       const cat = await Axios.get('/categories/tree')
       setCatData(cat.data.tree)
-      console.log('DATA IS ::', cat.data.tree)
     }
 
     getImages()
     getCatData()
+    dispatch(hideMessage())
 
     return () => {
       // Formdan Ayrılınca image ları sıfırla
       setImages([])
     }
-  }, [props.leads.currentLead.images])
+  }, [props.leads.currentLead.images, dispatch])
 
   const { handleSubmit } = props
   return (
@@ -149,7 +148,7 @@ let AdvertForm = (props) => {
                         src={
                           process.env.NODE_ENV !== 'development'
                             ? image.url &&
-                            process.env.REACT_APP_API_HOST + image.url.thumb
+                              process.env.REACT_APP_API_HOST + image.url.thumb
                             : image.url && image.url.thumb
                         }
                         key={image._id}
@@ -201,7 +200,6 @@ let AdvertForm = (props) => {
           </Row>
         </Container>
       )}
-
       <fieldset>
         <Field
           name="title"
@@ -279,7 +277,7 @@ let AdvertForm = (props) => {
         validate={[requiredSelect]}
       />
       <div className="form-group row">
-        <label className="col-2 col-form-label">Teklif Durumu</label>
+        <label className="col-2 col-form-label">Makina Durumu</label>
         <div className="col-10">
           <Field
             name="saleType"
@@ -290,6 +288,18 @@ let AdvertForm = (props) => {
           />
         </div>
       </div>
+      <hr />
+      <Field name="addressGoogle" component={PlacesInput} />
+      <hr />
+        <Field
+          name="youTube"
+          type="text"
+          id="leadYouTube"
+          component={HorizantalInput}
+          label="You Tube Link"
+          icon={youTubeIcon}
+        />
+
 
       {!props.leads.isSubmitting ? (
         <div>
@@ -301,7 +311,7 @@ let AdvertForm = (props) => {
           </button>
           <button
             className="btn btn-lg btn-secondary btn-block text-uppercase my-2"
-            onClick={() => props.history.push('/panel/')}
+            onClick={() => props.history.push('/panel/user/makinalar')}
           >
             İptal
           </button>

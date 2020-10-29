@@ -2,15 +2,15 @@ import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import authReducer from './auth'
 import leadsReducer from './leads'
-import dashboardReducer from './dashboard'
 import errorReducer from './error'
 import messageReducer from './message'
+import { main as mainReducer } from './main'
 import { suggestBrands, fetchingBrands } from './brands'
 
 export default combineReducers({
   auth: authReducer,
+  main: mainReducer,
   leads: leadsReducer,
-  dash: dashboardReducer,
   err: errorReducer,
   msg: messageReducer,
   brands: combineReducers({

@@ -10,6 +10,7 @@ const HorizantalInput = (props) => {
       <div className="form-group row">
         <label htmlFor={props.id} className="col-sm-2 col-form-label">
           {props.label}
+          {props.icon && <img src={props.icon} alt="icon" height="25px" className="ml-1 p-0"/>}
         </label>
         <div className="col-sm-10">
           <input
@@ -32,7 +33,11 @@ const HorizantalInput = (props) => {
                 <small>{error}</small>
               </div>
             )) ||
-              (warning && <div className="text-success"><small>{warning}</small></div>))}
+              (warning && (
+                <div className="text-success">
+                  <small>{warning}</small>
+                </div>
+              )))}
         </div>
       </div>
     </div>

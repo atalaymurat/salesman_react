@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../actions'
+import {verifyUserToPostLead} from '../Helpers/helpers'
+
 
 const EverifyGuard = (WrappedComponent) => {
   class MixedComp extends Component {
     checkVerified = async () => {
-      await this.props.setUser()
-      if (!this.props.email_verified) {
-        this.props.history.push('/panel/')
-        this.props.setError('E-posta Doğrulaması Gerekli')
+      if (!verifyUserToPostLead(this.props.user)) {
+        this.props.history.push('/panel/user/info')
+        this.props.setMessage('Üyelik bilgilerinizde eksiklik var')
       }
     }
-    checkAuth() {
+    checkAuthenticated() {
       if (!this.props.isAuthenticated) {
         this.props.history.push('/register/')
         return false
@@ -20,14 +21,14 @@ const EverifyGuard = (WrappedComponent) => {
       }
     }
     componentDidMount = () => {
-      this.checkAuth()
-      if (this.checkAuth()) {
+      this.checkAuthenticated()
+      if (this.checkAuthenticated()) {
         this.checkVerified()
       }
     }
 
     render() {
-      return this.props.email_verified ? (
+      return verifyUserToPostLead(this.props.user) ? (
         <WrappedComponent {...this.props} />
       ) : (
         <div className="alert alert-info" role="alert">
@@ -42,7 +43,8 @@ const EverifyGuard = (WrappedComponent) => {
 const mapStateToProps = (state) => {
   return {
     email_verified: state.auth.user.local.email_verified,
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: state.auth.user.isAuthenticated,
+    user: state.auth.user,
   }
 }
 export default EverifyGuard

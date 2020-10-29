@@ -1,7 +1,7 @@
 .makinatr {
   letter-spacing: -1.7px;
   font-family: Futura, Arial, Helvetica, sans-serif;
-  font-size-adjust: 0.6px;
+  /* font-size-adjust: 0.6px; */
   margin-left: 2px;
 }
 .fa-hover {
@@ -11,7 +11,34 @@
   cursor: pointer;
   color: red;
 }
-body{
-  /* top header fixed oldugu için */
-  padding-top: 40px;
+.PhoneInputInput {
+  border: none;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+/* User form da phone input inline olması için */
+.form-control.PhoneInput {
+  display: flex;
+  flex-flow: nowrap;
+}
+
+legend {
+  width: fit-content;
+  background-color: white;
+  color: black;
+  padding: 0 10px;
+}
+
+/* User Navigatin Header */
+
+.nav-link {
+  padding: 1px;
+}
+.nav-item {
+  margin: 2px;
+}
+/* Bu değer catIndex Menusundeki oku ortalıyor */
+svg {
+  vertical-align: super;
 }

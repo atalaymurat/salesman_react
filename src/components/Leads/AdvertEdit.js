@@ -7,7 +7,7 @@ import { getAdvert, advertReset, hideError, isSubmitting } from '../../actions'
 import AdvertForm from './AdvertForm.js'
 
 const AdvertEdit = (props) => {
-  const { getAdvert, hideError, isSubmitting, advertReset, setUser} = props
+  const { getAdvert, hideError, isSubmitting, advertReset} = props
   const { id } = props.match.params
   useEffect(() => {
     getAdvert(id)
@@ -18,7 +18,7 @@ const AdvertEdit = (props) => {
       hideError()
       advertReset()
     }
-  }, [getAdvert, hideError, isSubmitting, advertReset, id, setUser])
+  }, [getAdvert, hideError, isSubmitting, advertReset, id])
 
   const { lead, leads } = props
   let leadInitial = { ...lead }

@@ -4,6 +4,7 @@ import { Col, Card } from 'react-bootstrap'
 import trStrings from 'react-timeago/lib/language-strings/tr'
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import { truncateStr } from '../Helpers/helpers'
+import { getCountryAlpha2Code } from '../Helpers/countryCode'
 
 const borderStyle = {
   cursor: 'pointer',
@@ -18,7 +19,7 @@ const formatter = buildFormatter(trStrings)
 
 const AdvertListItem = (props) => {
   const handleClick = (id) => {
-    props.history.push(`/adverts/${id}`)
+    props.history.push(`/makinalar/${id}`)
   }
 
   const { ad } = props
@@ -46,10 +47,30 @@ const AdvertListItem = (props) => {
           <Card.Title className="h6 mb-0 text-capitalize text-truncate">
             {truncateStr(ad.title, 29)}
           </Card.Title>
-          <Card.Text>
+          <Card.Text className="mb-0">
             <small className="text-capitalize text-truncate text-muted">
               {ad.brand && ad.brand.name}
             </small>
+          </Card.Text>
+          <Card.Text>
+            {ad.addressGoogle && (
+              <>
+                <img
+                  alt={getCountryAlpha2Code(ad.addressGoogle)}
+                  src={`http://catamphetamine.gitlab.io/country-flag-icons/3x2/${getCountryAlpha2Code(
+                    ad.addressGoogle
+                  )}.svg`}
+                  height="13px"
+                  width="17px"
+                />{' '}
+                <small className="text-capitalize text-truncate text-muted align-middle">
+                  {ad.addressGoogle &&
+                    ad.addressGoogle
+                      .split(',')
+                      [ad.addressGoogle.split(',').length - 1].trim()}
+                </small>
+              </>
+            )}
           </Card.Text>
         </Card.Body>
         <Card.Footer className="p-1">

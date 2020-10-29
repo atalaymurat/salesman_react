@@ -16,15 +16,16 @@ const EditGuard = (WrappedComponent) => {
         const lead = await axios.get(`/leads/${this.props.match.params.id}`)
         const adUser = lead.data.lead.user._id
         this.setState({ adUser })
-        if (this.props.user !== adUser) {
-          this.props.history.push(`/adverts/${this.props.match.params.id}`)
+        if (
+          this.props.user._id !== adUser && !this.props.user.isAdmin ) {
+          this.props.history.push(`/makinalar/${this.props.match.params.id}`)
         }
       }
       getAdvert()
     }
 
     render() {
-      return this.props.user === this.state.adUser ? (
+      return this.props.user === this.state.adUser || this.props.user.isAdmin ? (
         <WrappedComponent {...this.props} />
       ) : (
         <div className="alert alert-info" role="alert">
@@ -38,7 +39,7 @@ const EditGuard = (WrappedComponent) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user._id,
+    user: state.auth.user,
   }
 }
 export default EditGuard

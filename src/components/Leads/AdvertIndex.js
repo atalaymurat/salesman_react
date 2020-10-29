@@ -24,7 +24,7 @@ class AdvertIndex extends Component {
             .filter((item) => item.cover && item.cover._id)
             .slice(0, 6)
             .map((ad) => (
-              <AdvertListItem ad={ad} {...this.props} />
+              <AdvertListItem ad={ad} {...this.props} key={ad._id} />
             ))}
         </Row>
       </Container>

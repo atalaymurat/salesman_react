@@ -1,0 +1,19 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 61px;
+}
+.push {
+  height: 1px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  background-color: #617f41;
+}

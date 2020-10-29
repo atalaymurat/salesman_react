@@ -10,9 +10,23 @@ const DEFAULT_STATE = {
       local: {
         email: '',
       },
+      name: {
+        first: '',
+        last: '',
+      },
+      phone: {
+        mobile: '',
+        business: '',
+        company: '',
+      },
     },
     images: [],
-    price: {amount:"", currency:""},
+    price: { amount: '', currency: '' },
+    brand: { name: ''},
+    category: {name: ''},
+    modelType: '',
+    modelYear: '',
+    cover: {url: {mid: ''}}
   },
   isSubmitting: false,
 }

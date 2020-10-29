@@ -14,9 +14,6 @@ import AdvertForm from './AdvertForm.js'
 const AdvertNew = (props) => {
   const { advertReset, hideMessage, hideError } = props
   useEffect(() => {
-    // if (!props.auth.isAuthenticated) {
-    //   props.history.push('/register')
-    // }
     advertReset()
     hideMessage()
 

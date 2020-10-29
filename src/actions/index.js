@@ -18,15 +18,21 @@ export const hideMessage = () => {
     type: T.HIDE_MESSAGE,
   }
 }
+export const setMessage = (message) => {
+  return {
+    type: T.SET_MESSAGE,
+    payload: message,
+  }
+}
 
 export const oauthGoogle = (data) => {
   return async (dispatch) => {
-    await axios.post('/auth/google', {
+    const res = await axios.post('/auth/google', {
       access_token: data,
     })
-
     dispatch({
       type: T.AUTH_SIGN_UP,
+      payload: res.data.user,
     })
   }
 }
@@ -57,12 +63,13 @@ export const unlinkGoogle = (data) => {
 
 export const oauthFacebook = (data) => {
   return async (dispatch) => {
-    await axios.post('/auth/facebook', {
+    const res = await axios.post('/auth/facebook', {
       access_token: data,
     })
 
     dispatch({
       type: T.AUTH_SIGN_UP,
+      payload: res.data.user,
     })
   }
 }
@@ -96,6 +103,7 @@ export const signUp = (data) => {
       const res = await axios.post('/auth/signup', data)
       dispatch({
         type: T.AUTH_SIGN_UP,
+        payload: res.data.user,
       })
       dispatch({
         type: T.SET_MESSAGE,
@@ -151,13 +159,15 @@ export const verify = (data) => {
       const res = await axios.post('/users/verify', data)
       dispatch({
         type: T.AUTH_VERIFY,
-        payload: res.data.email_verified,
+        payload: res.data.success,
       })
     } catch (error) {
-      dispatch({
-        type: T.SET_ERROR,
-        error: error.response.data.error,
-      })
+      if (error.response && error.response.data) {
+        dispatch({
+          type: T.SET_ERROR,
+          error: error.response.data.error,
+        })
+      }
     }
   }
 }
@@ -200,95 +210,49 @@ export const logIn = (data) => {
   return async (dispatch) => {
     try {
       const res = await axios.post('/auth/login', data)
-
-      dispatch({
-        type: T.AUTH_LOG_IN,
-        payload: res.data.success,
-      })
-
+      if (res.data.success) {
+        dispatch({
+          type: T.AUTH_LOG_IN,
+          payload: res.data.user,
+        })
+      }
       dispatch({
         type: T.HIDE_ERROR,
       })
     } catch (err) {
-      console.error('Error', err)
-      if (err) {
-        dispatch({
-          type: T.SET_ERROR,
-          error: err.response.data.error,
-        })
-      }
-    }
-  }
-}
-
-export const checkAuth = () => {
-  return async (dispatch) => {
-    try {
-      const res = await axios.get('/auth/status')
-      dispatch({
-        type: T.AUTH_LOG_IN,
-        payload: res.data.success,
-      })
-    } catch (err) {
-      dispatch(setError(err.response.data.error))
-    }
-  }
-}
-
-export const setUser = () => {
-  return async (dispatch) => {
-    try {
-      const res = await axios.get('/users/setuser')
-
-      dispatch({
-        type: T.AUTH_SET_USER,
-        user: res.data.user,
-      })
-    } catch (err) {
-      if (err.response) {
-        dispatch(setError(err.response.data.error))
-      }
-    }
-  }
-}
-
-export const getDashboard = () => {
-  return async (dispatch) => {
-    try {
-      const res = await axios.get('/auth/dashboard')
-
-      dispatch({
-        type: T.DASHBOARD_GET_DATA,
-        payload: res.data,
-      })
-    } catch (err) {
       dispatch({
         type: T.SET_ERROR,
-        payload: err.response.data.error,
+        error: err.response.data.error,
       })
-      console.error('error', err)
     }
+  }
+}
+// CheckAuth Kaldırıldı sadece setUser var
+export const setUser = (user) => {
+  return {
+    type: T.AUTH_SET_USER,
+    payload: user,
   }
 }
 
 export const logOut = () => {
   return async (dispatch) => {
-    try{
-    await axios.get('/auth/logout')
-
-    dispatch({
-      type: T.AUTH_LOG_OUT,
-    })
-    dispatch({
-      type: T.HIDE_ERROR,
-    })
-    dispatch({
-      type: T.HIDE_MESSAGE,
-    })
-
-    }catch (err){
-      dispatch(setError('err on LogOut'))
-    }
+      await axios.get('/auth/logout')
+      dispatch({
+        type: T.AUTH_LOG_OUT,
+      })
+      dispatch({
+        type: T.HIDE_ERROR,
+      })
+      dispatch({
+        type: T.HIDE_MESSAGE,
+      })
+  }
+}
+export const editUser = (data) => {
+  return {
+    type: T.AUTH_EDIT_USER,
+    payload: data,
   }
 }
 
@@ -300,14 +264,8 @@ export const getAdverts = () => {
         type: T.ADVERTS_GET_DATA,
         payload: res.data.leads,
       })
-      console.log(`
-      getLeads Action Creater Thunk
-      -------------------------------
-      state allLeads total: ${getState().leads.allLeads.length}
-      isLoaded: ${getState().leads.isLoaded}
-    `)
     } catch (err) {
-      dispatch(setError('err on getAdverts'))
+      dispatch(setError('Sunucuya Bağlanamadı'))
     }
   }
 }
@@ -372,7 +330,6 @@ export const editAdvert = (formData) => {
     try {
       let id = formData._id
       const res = await axios.patch(`/leads/${id}`, formData)
-      console.log('EDIT RESPONSE', res.data.lead)
       dispatch({
         type: T.ADVERTS_EDIT,
         payload: res.data.lead,
@@ -400,26 +357,11 @@ export const editAdvert = (formData) => {
 export const getAdvert = (id) => {
   return async (dispatch, getState) => {
     try {
-      console.log('ADVERT ID : ', id)
       const res = await axios.get(`/leads/${id}`)
       dispatch({
         type: T.ADVERTS_GET_BYID,
         payload: res.data.lead,
       })
-      console.log(`
-      getAdvert one Action Creater Thunk
-      -------------------------------
-      id : ${getState().leads.currentLead._id}
-      title : ${getState().leads.currentLead.title}
-      brand : ${
-        getState().leads.currentLead.brand
-          ? getState().leads.currentLead.brand.name
-          : null
-      }
-      images : ${getState().leads.currentLead.images.length}
-      user : ${getState().leads.currentLead.user.local.email}
-      -------------------------------
-    `)
     } catch (err) {
       if (err.response) {
         dispatch(setError(err.response.data.error))
@@ -462,11 +404,6 @@ export const getSuggestedBrands = (value) => async (dispatch) => {
       type: T.FETCH_BRANDS,
     })
     const res = await axios.get(`/brands/${value}`)
-    console.log(`
-    ----------------------------
-    Brands Suggested : ${JSON.stringify(res.data)}
-    ----------------------------
-  `)
     dispatch({
       type: T.SUGGEST_BRANDS,
       payload: res.data,
@@ -479,5 +416,18 @@ export const getSuggestedBrands = (value) => async (dispatch) => {
     dispatch({
       type: T.CANCEL_FETCH_BRANDS,
     })
+  }
+}
+
+export const sideBarToggle = () => {
+  return {
+    type: T.SIDE_BAR_TOGGLE,
+  }
+}
+
+export const sideBarClose = () => {
+  return {
+    type: T.SIDE_BAR_CLOSE,
+    payload: false
   }
 }
