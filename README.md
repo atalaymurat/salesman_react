@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Required Files
+- .env
+- .babelrc
+- src/.configuration.js
 
 ## Available Scripts
 
