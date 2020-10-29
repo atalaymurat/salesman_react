@@ -20,8 +20,8 @@ const routes = [
   '/forget',
   '/reset',
   '/verify',
-  '/makinalar/cat/Ah%C5%9Fap%20%C4%B0%C5%9Fleme%20Makinalar%C4%B1',
-  '/makinalar/cat/Metal%20İşleme%20Makinaları',
+  '/makinalar/cat/Ahşap',
+  '/makinalar/cat/metal',
   '/cerez-politikası',
   '/gizlilik-politikası',
 ]

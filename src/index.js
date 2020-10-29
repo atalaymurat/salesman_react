@@ -119,7 +119,7 @@ ReactDOM.render(
             <Route
               path="*"
               status={404}
-              render={() => (window.location = 'http://api.makinatr.com/404')}
+              render={() => (window.location = `${process.env.REACT_APP_API_HOST}/404`)}
             />
           </Switch>
         </App>

@@ -28,7 +28,7 @@ export class BootstrapCarousel extends Component {
                   alt={`image_${i}`}
                 />
                 <Carousel.Caption>
-                  <h3 className="text-silver">makinaTr.com</h3>
+                <h3 className="text-silver">{process.env.REACT_APP_SITE_COM}</h3>
                   <small className="text-dark">{img.label}</small>
                 </Carousel.Caption>
               </Carousel.Item>

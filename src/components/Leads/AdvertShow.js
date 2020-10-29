@@ -43,24 +43,24 @@ class AdvertShow extends React.Component {
       return (
         <Container fluid="md" className="my-2 h-100">
           <Helmet>
-            <title>{this.props.advert.title + ' ▷ makinaTr'} </title>
+            <title>{this.props.advert.title + ` ▷ ${process.env.REACT_APP_TITLE}`} </title>
             <meta
               name="description"
-              content={`${this.props.advert.brand.name} ${this.props.advert.modelType} ${this.props.advert.category.name} Model yılı: ${this.props.advert.modelYear} | Fiyat: ${this.props.advert.price.amount} ${this.props.advert.price.currency} | Durumu: ${this.props.advert.saleType} ➤ makinaTr.com`}
+              content={`${this.props.advert.brand.name} ${this.props.advert.modelType} ${this.props.advert.category.name} Model yılı: ${this.props.advert.modelYear} | Fiyat: ${this.props.advert.price.amount} ${this.props.advert.price.currency} | Durumu: ${this.props.advert.saleType} ➤ ${process.env.REACT_APP_SITE_COM}`}
             />
-            <meta name="author" content="MakinaTr, İstanbul, Türkiye"></meta>
+            <meta name="author" content={`${process.env.REACT_APP_TITLE}, İstanbul, Türkiye`}></meta>
             <meta name="language" content="tr"></meta>
             <meta name="robots" content="INDEX"></meta>
-            <meta name="email" content="info@makinatr.com"></meta>
+            <meta name="email" content={process.env.REACT_APP_EMAIL}></meta>
 
             <meta
               property="og:title"
               content={'▷ ' + this.props.advert.title}
             ></meta>
-            <meta property="og:url" content={`http://makinatr.com/makinalar/${this.props.advert._id}`} />
+            <meta property="og:url" content={`${process.env.REACT_APP_SITE_URL}/makinalar/${this.props.advert._id}`} />
             <meta
               property="og:description"
-              content={`${this.props.advert.brand.name} ${this.props.advert.modelType} ${this.props.advert.category.name} Model yılı: ${this.props.advert.modelYear} | Fiyat: ${this.props.advert.price.amount} ${this.props.advert.price.currency} | Durumu: ${this.props.advert.saleType} ➤ makinaTr.com`}
+              content={`${this.props.advert.brand.name} ${this.props.advert.modelType} ${this.props.advert.category.name} Model yılı: ${this.props.advert.modelYear} | Fiyat: ${this.props.advert.price.amount} ${this.props.advert.price.currency} | Durumu: ${this.props.advert.saleType} ➤ ${process.env.REACT_APP_SITE_COM}`}
             ></meta>
             <meta property="og:type" content="article"></meta>
             <meta
@@ -90,7 +90,7 @@ class AdvertShow extends React.Component {
                   width={640}
                   height={640}
                   className="img-fluid border"
-                  text="makinaTr.com"
+                  text={process.env.REACT_APP_SITE_COM}
                 />
               )}
             </Col>

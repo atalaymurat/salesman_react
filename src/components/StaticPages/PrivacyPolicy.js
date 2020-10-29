@@ -6,19 +6,22 @@ const PrivacyPolicy = () => {
       <h1>Gizlilik Politikası</h1>
       <h3>1. Genel</h3>
       <p>
-        Bundan böyle “Makinatr” olarak anılacak Makinatr Endüstriyel Ekipman
-        Pazarlama Şirketi, web sitesini ziyaret edenlerin gizliliğini korumayı
-        ilke olarak benimsemiştir. Bu nedenle, işbu gizlilik beyanı (“Gizlilik
-        Beyanı”), web sitemizi kullanırken kullanıcılara ilişkin ne tür
-        bilgilerin Makinatr tarafından alındığını, bunların nasıl kullanıldığını
-        ve korunduğunu açıklamaktadır. Ayrıca işbu Gizlilik Beyanı çerçevesinde
-        bu bilgilerin doğruluğunun sizin tarafınızdan nasıl denetlenebileceği ve
-        istediğinizde Makinatr´ye başvurarak bu bilgilerin silinmesini nasıl
-        sağlayabileceğiniz belirtilmektedir. Söz konusu bilgilerin, mevcut ve
-        geçerli olan veri koruma düzenlemelerine uygun olarak işlenmesi ve
-        kullanılması için gerekli olan her türlü işlem Makinatr tarafından
-        yerine getirilecektir.İşbu Gizlilik Beyanı, Makinatr sitesinden link
-        verilmiş başka siteler (hyperlinked web siteleri) için geçerli değildir.
+        Bundan böyle “{process.env.REACT_APP_TITLE}” olarak anılacak{' '}
+        {process.env.REACT_APP_TITLE} Endüstriyel Ekipman Pazarlama Şirketi, web
+        sitesini ziyaret edenlerin gizliliğini korumayı ilke olarak
+        benimsemiştir. Bu nedenle, işbu gizlilik beyanı (“Gizlilik Beyanı”), web
+        sitemizi kullanırken kullanıcılara ilişkin ne tür bilgilerin{' '}
+        {process.env.REACT_APP_TITLE}
+        tarafından alındığını, bunların nasıl kullanıldığını ve korunduğunu
+        açıklamaktadır. Ayrıca işbu Gizlilik Beyanı çerçevesinde bu bilgilerin
+        doğruluğunun sizin tarafınızdan nasıl denetlenebileceği ve istediğinizde
+        {process.env.REACT_APP_TITLE}´ye başvurarak bu bilgilerin silinmesini
+        nasıl sağlayabileceğiniz belirtilmektedir. Söz konusu bilgilerin, mevcut
+        ve geçerli olan veri koruma düzenlemelerine uygun olarak işlenmesi ve
+        kullanılması için gerekli olan her türlü işlem{' '}
+        {process.env.REACT_APP_TITLE} tarafından yerine getirilecektir.İşbu
+        Gizlilik Beyanı, {process.env.REACT_APP_TITLE} sitesinden link verilmiş
+        başka siteler (hyperlinked web siteleri) için geçerli değildir.
       </p>
       <h3>2. Kişisel bilgilerin toplanması, kullanımı ve işlenmesi</h3>
       <p>
@@ -39,18 +42,19 @@ const PrivacyPolicy = () => {
         bulunmaktadır. Duruma bağlı olarak bu tür veriler, site ziyaretçisi
         hakkında bazı sonuçlar çıkarılmasını sağlar. Ancak hiçbir kişisel bilgi
         bu çerçevede kullanılmayacaktır. Bu tür kişiye özel veriler sadece
-        anonimleştirilerek kullanılabilir. Makinatr´in bu verileri dışarıdan bir
-        hizmet sağlayıcısına yönlendirmesi durumunda, verilerin, veri
-        güvenliğine ilişkin mevcut yasal düzenlemeler çerçevesinde aktarılması
-        için gerekli teknik ve organizasyonel işlemler gerçekleştirilecektir.
+        anonimleştirilerek kullanılabilir. {process.env.REACT_APP_TITLE}´in bu
+        verileri dışarıdan bir hizmet sağlayıcısına yönlendirmesi durumunda,
+        verilerin, veri güvenliğine ilişkin mevcut yasal düzenlemeler
+        çerçevesinde aktarılması için gerekli teknik ve organizasyonel işlemler
+        gerçekleştirilecektir.
       </p>
       <p>
-        Kendi isteğinizle kişisel bilgilerinizin verilmesi halinde, Makinatr, bu
-        bilgileri yasada öngörülen veya ziyaretçinin muvafakat beyannamesinde
-        belirtilen sınırlamalar dahilinde kullanacağını, işleme tabi
-        tutulacağını veya aktarılacağını taahhüt eder. Söz konusu kişisel
-        bilgilerinin üçüncü kişilere aktarımı, sadece adli ya da idari
-        mercilerce öngörülmesi halinde söz konusu olacaktır.
+        Kendi isteğinizle kişisel bilgilerinizin verilmesi halinde,{' '}
+        {process.env.REACT_APP_TITLE}, bu bilgileri yasada öngörülen veya
+        ziyaretçinin muvafakat beyannamesinde belirtilen sınırlamalar dahilinde
+        kullanacağını, işleme tabi tutulacağını veya aktarılacağını taahhüt
+        eder. Söz konusu kişisel bilgilerinin üçüncü kişilere aktarımı, sadece
+        adli ya da idari mercilerce öngörülmesi halinde söz konusu olacaktır.
       </p>
       <p>
         İşbu Gizlilik Beyanı´na ilişkin olası değişiklikler bu sayfada
@@ -60,46 +64,50 @@ const PrivacyPolicy = () => {
       </p>
       <h3>3. Güvenlik</h3>
       <p>
-        Makinatr, size ait bilgileri güvenli biçimde saklamaktadır; dolayısıyla
-        söz konusu bilgilerin herhangi bir kayıba, suistimale ya da değişikliğe
-        karşı korunması için gerekli tüm önlemleri almaktadır. Makinatr´in,
-        gerekli hizmeti size ulaştırmak için bilgilerinize erişimi olan
-        sözleşmesel ortakları, sözleşmesel yükümlülükleri çerçevesinde bu
-        bilgileri gizli tutmak ve başka hiçbir amaçla kullanmamakla yükümlüdür.
-        Bazı durumlarda kişisel bilgilerinizin Makinatr bağlı şirketleriyle
+        {process.env.REACT_APP_TITLE}, size ait bilgileri güvenli biçimde
+        saklamaktadır; dolayısıyla söz konusu bilgilerin herhangi bir kayıba,
+        suistimale ya da değişikliğe karşı korunması için gerekli tüm önlemleri
+        almaktadır. {process.env.REACT_APP_TITLE}´in, gerekli hizmeti size
+        ulaştırmak için bilgilerinize erişimi olan sözleşmesel ortakları,
+        sözleşmesel yükümlülükleri çerçevesinde bu bilgileri gizli tutmak ve
+        başka hiçbir amaçla kullanmamakla yükümlüdür. Bazı durumlarda kişisel
+        bilgilerinizin {process.env.REACT_APP_TITLE} bağlı şirketleriyle
         paylaşılması gerekecektir. Bu durumlarda da bilgileriniz gizli
         adledilecektir.
       </p>
       <h3>4. Çocuklara ait, kişiye dair bilgiler</h3>
       <p>
-        Makinatr web sitesinin yetişkinler tarafından kullanılması öngörülmüş
-        olup, Makinatr web sitesi çoçuklara yönelik değildir. Makinatr, 14
-        yaşından küçük çoçuklara ilişkin bilgilerle ilgilenmemektedir. Makinatr,
-        söz konusu çoçuklara, herhangi bir kişiye ait bilgileri göndermemeleri
-        konusunda sitede uygun bir yerde açık yönlendirmelerde bulunacaktır.
-        Ebeveynlerin ya da yasal velinin, gözetimleri altındaki çocukların
-        herhangi bir kişiye ilişkin bilgileri Makinatr´e ulaştırıldığına dair
-        şüpheleri olması halinde, eğer söz konusu bilgilerin silinmesi
-        isteniyorsa, aşağıdaki adresten (6. Maddeye bkz.) derhal bizle irtibata
-        geçmelerini rica ederiz. Böyle bir durumda, söz konusu bilgiler hiç
-        vakit kaybetmeden silinecektir.
+        {process.env.REACT_APP_TITLE} web sitesinin yetişkinler tarafından
+        kullanılması öngörülmüş olup, {process.env.REACT_APP_TITLE} web sitesi
+        çoçuklara yönelik değildir. {process.env.REACT_APP_TITLE}, 14 yaşından
+        küçük çoçuklara ilişkin bilgilerle ilgilenmemektedir.{' '}
+        {process.env.REACT_APP_TITLE}, söz konusu çoçuklara, herhangi bir kişiye
+        ait bilgileri göndermemeleri konusunda sitede uygun bir yerde açık
+        yönlendirmelerde bulunacaktır. Ebeveynlerin ya da yasal velinin,
+        gözetimleri altındaki çocukların herhangi bir kişiye ilişkin bilgileri{' '}
+        {process.env.REACT_APP_TITLE}´e ulaştırıldığına dair şüpheleri olması
+        halinde, eğer söz konusu bilgilerin silinmesi isteniyorsa, aşağıdaki
+        adresten (6. Maddeye bkz.) derhal bizle irtibata geçmelerini rica
+        ederiz. Böyle bir durumda, söz konusu bilgiler hiç vakit kaybetmeden
+        silinecektir.
       </p>
       <h3>5. Çerez ("Cookie"ler)</h3>
       <h3>6. İstekleriniz ve sorularınız</h3>
       <p>
         Depolanan bilgiler, yasal veya sözleşmesel dosyalama süresi sona
-        erdiğinde veya Makinatr´in artık gereksinimi kalmaması halinde Makinatr
+        erdiğinde veya {process.env.REACT_APP_TITLE}´in artık gereksinimi
+        kalmaması halinde {process.env.REACT_APP_TITLE}
         tarafından silinecektir. Ancak, elbette siz istediğiniz zaman size ait
         bilgilerin silinmesini talep edebilirsiniz. Ayrıca gelecekte,
         istediğiniz zaman kişisel bilgilerinizin kullanım ya da işleme tabi
         tutulmasına dair muvakatinizi geri çekebilirsiniz. Bu tür durumlarda ya
         da kişisel bilgilerinize ait diğer tüm sorularınız konusunda elektronik
-        posta yoluyla veri koruma sorumlusu Mr. Frank Liebich, Makinatrstrasse
-        67, D 40191 Düsseldorf, Germany (E-Mail: Datenschutz@Makinatr.com)’a
-        danışabilirsiniz. Size ait bilgilerin saklanıp ve bu bilgilerin kullanım
-        alanlarına ilişkin sorularınız için bizimle yine aynı yöntemle temasa
-        geçebilirsiniz. Dileklerinize anında yanıt vermek için elimizden gelen
-        tüm çabayı göstereceğimizden emin olabilirsiniz.
+        posta yoluyla veri koruma sorumlusu Mr. Said Canyaran, (E-Mail:{' '}
+        {process.env.REACT_APP_EMAIL})’a danışabilirsiniz. Size ait bilgilerin
+        saklanıp ve bu bilgilerin kullanım alanlarına ilişkin sorularınız için
+        bizimle yine aynı yöntemle temasa geçebilirsiniz. Dileklerinize anında
+        yanıt vermek için elimizden gelen tüm çabayı göstereceğimizden emin
+        olabilirsiniz.
       </p>
       <h3>7. Sosyal Medya Eklentilerinin Kullanımı</h3>
       <p>

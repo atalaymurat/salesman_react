@@ -128,20 +128,20 @@ const LeadCatIndex = ({ history }) => {
   ) : (
       <Container className="p-2">
         <Helmet>
-          <title>{cat + ' ▷ makinaTr'}</title>
+          <title>{`${cat} ▷ ${process.env.REACT_APP_TITLE}`}</title>
           <meta
             name="description"
-            content={`Satılık 2. el ${cat} ➤ makinaTr.com`}
+            content={`Satılık 2. el ${cat} ➤ ${process.env.REACT_APP_SITE_COM}`}
           />
-          <meta name="author" content="MakinaTr, İstanbul, Türkiye"></meta>
+          <meta name="author" content={`${process.env.REACT_APP_TITLE}, İstanbul, Türkiye`}></meta>
           <meta name="language" content="tr"></meta>
           <meta name="robots" content="INDEX"></meta>
-          <meta name="email" content="info@makinatr.com"></meta>
+          <meta name="email" content={process.env.REACT_APP_EMAIL}></meta>
 
           <meta property="og:title" content={'▷ ' + cat}></meta>
           <meta
             property="og:description"
-            content={`Satılık 2. el ${cat} ➤ makinaTr.com`}
+            content={`Satılık 2. el ${cat} ➤ ${process.env.REACT_APP_SITE_COM}`}
           ></meta>
           <meta property="og:type" content="website"></meta>
         </Helmet>

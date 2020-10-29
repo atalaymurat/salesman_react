@@ -61,7 +61,7 @@ const App = (props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <link rel="canonical" href="http://makinatr.com" />
+        <link rel="canonical" href={process.env.REACT_APP_SITE_URL} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico" />
         <link

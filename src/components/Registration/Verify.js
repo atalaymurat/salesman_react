@@ -100,15 +100,13 @@ class Verify extends Component {
               - Doğru e-posta adresine baktığınızdan emin olun.
               <br />
               - Tekrar doğrulama e-postası isteyebilirsiz.
-              <br />
-              - Microsoft (outlook, msn, hotmail) e-posta hesaplarında,
+              <br />- Microsoft (outlook, msn, hotmail) e-posta hesaplarında,
               e-postalar bloklanabiliyor. Eğer bu hesaplardan kayıt yapmaya
-              çalışıyor iseniz ve doğrulama kodunuzu alamıyorsanız
-              info@makinatr.com adresine e-posta atabilirsiniz.
-              <br />
-              - info@makinatr.com adresine doğrulama yapmak istediğiniz e-posta
-              adresinizden doğrulama kodumu istiyorum başlıklı bir e-posta
-              gönderebilirsiniz.
+              çalışıyor iseniz ve doğrulama kodunuzu alamıyorsanız.{' '}
+              {process.env.REACT_APP_EMAIL} adresine e-posta atabilirsiniz.
+              <br />- {process.env.REACT_APP_EMAIL} adresine doğrulama yapmak
+              istediğiniz e-posta adresinizden doğrulama kodumu istiyorum
+              başlıklı bir e-posta gönderebilirsiniz.
               <br /> - Doğrulama işlemini daha sonrada tamamlayabilirsiniz.
               <br />
             </p>

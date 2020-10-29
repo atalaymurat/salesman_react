@@ -102,12 +102,12 @@ const AdvertSingle = ({ history }) => {
                 </span>
               </Col>
               <Col xs={12} className="small text-muted">
-                Bu alanda ilan vermek isterseniz info@makinatr.com
+                Bu alanda ilan vermek isterseniz {process.env.REACT_APP_EMAIL}
               </Col>
             </Row>
           </Card.Body>
           <Card.Footer className="p-1">
-            <small className="text-muted text-lowercase">makinaTr.com</small>
+                  <small className="text-muted text-lowercase">{process.env.REACT_APP_TITLE}</small>
           </Card.Footer>
         </Card>
       </div>

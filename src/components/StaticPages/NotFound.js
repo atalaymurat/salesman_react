@@ -9,7 +9,7 @@ const NotFound = () => {
         <div className="col">
           <div className="d-block mx-auto my-auto w-75 h-50" >
             <h1>404 İçerik Bulunamıyor</h1>
-            <p>Üzgünüz bakmış olduğunuz içerik, "makinatr.com{location.pathname}" bulunamadı.</p>
+  <p>Üzgünüz bakmış olduğunuz içerik, "{process.env.REACT_APP_SITE_COM}{location.pathname}" bulunamadı.</p>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ const Home = (props) => {
     <Container className="h-100" fluid="lg">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>makinaTr</title>
+        <title>{process.env.REACT_APP_TITLE}</title>
         <meta
           name="description"
           content="Endüstriyel Ekipman Pazarlama Servisleri"

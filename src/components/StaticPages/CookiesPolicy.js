@@ -4,11 +4,12 @@ const CookiesPolicy = () => {
   return (
     <div className="container">
       <p>
-        makinatr.com adresindeki internet sitemizde yer alan bazı alanlarda
-        çerezler kullanmaktayız. Site’de kullanılan çerezlerle benzer işlevlere
-        sahip SDK’lar (Software Development Kit) da kullanılmaktadır. Bu Çerez
-        Politikası (“Politika”), Makinatr tarafından yönetilen site için geçerli
-        olup çerezler ve SDK’lar Politika’da açıklanan şekilde kullanılacaktır.
+        {process.env.REACT_APP_SITE_COM} adresindeki internet sitemizde yer alan
+        bazı alanlarda çerezler kullanmaktayız. Site’de kullanılan çerezlerle
+        benzer işlevlere sahip SDK’lar (Software Development Kit) da
+        kullanılmaktadır. Bu Çerez Politikası (“Politika”), {process.env.REACT_APP_TITLE} tarafından
+        yönetilen site için geçerli olup çerezler ve SDK’lar Politika’da
+        açıklanan şekilde kullanılacaktır.
       </p>
 
       <h1>Sitemizde Kullanılan Çerezlere İlişkin Bilgiler</h1>

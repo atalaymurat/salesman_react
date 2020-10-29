@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import logo from '../../makinatrlogo.svg'
+import logo from '../../siteLogo.svg'
 import { logOut } from '../../actions'
 
 import UserPanelNav from '../Users/UserPanelNav'
@@ -84,11 +84,11 @@ const Header = (props) => {
                   src={logo}
                   height={22}
                   className="align-self-center"
-                  alt="makinatr logo"
+                  alt="logo"
                   style={{ filter: 'invert(0.4) sepia(0) brightness(0.5)' }}
                 />
-                <span className="makinatr" style={{ fontSize: 25 }}>
-                  makinaTr
+                <span className="site-logo" style={{ fontSize: 25 }}>
+                {process.env.REACT_APP_TITLE}
                 </span>
               </Link>
 

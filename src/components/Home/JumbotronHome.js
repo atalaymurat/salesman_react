@@ -21,8 +21,8 @@ const MainToast = ({ children }) => {
       <Toast show={show} onClose={() => toggleShow(!show)}>
         <Toast.Header>
           <strong className="mr-auto">
-            <span className="makinatr" style={{ fontSize: 13 }}>
-              makinaTr
+            <span className="site-logo" style={{ fontSize: 13 }}>
+              {process.env.REACT_APP_TITLE}
             </span>{' '}
             Endüstriyel Ekipman Çözümleri
           </strong>
@@ -51,8 +51,8 @@ const JumbotronHome = (props) => {
           style={{ background: 'rgba(0, 0, 0, 0.3)' }}
         >
           <h1 className="h2 header text-white">
-            <span className="makinatr text-white" style={{ fontSize: 38 }}>
-              makinaTr.com
+            <span className="site-logo text-white" style={{ fontSize: 38 }}>
+              {process.env.REACT_APP_TITLE}
             </span>{' '}
             Endüstriyel Ekipman Pazarlama Servisleri
           </h1>

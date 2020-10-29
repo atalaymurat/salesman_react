@@ -13,8 +13,8 @@ const SideBar = (props) => {
     <nav className={sideBarClasses} style={{ top: 53, height:'100vh' }}>
       <ul>
         <li>
-          <Link to="/" className="makinatr">
-            makinaTr
+          <Link to="/" className="site-logo">
+            {process.env.REACT_APP_TITLE}
           </Link>
         </li>
         <li>
